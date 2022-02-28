@@ -1,0 +1,19 @@
+{   
+    "userId": "123",
+    "array": [{
+            "id": "1",
+            "orderNum": "1",
+            "text": "blablabalbalbalbla"
+        },
+        {
+            "id": "2",
+            "orderNum": "not_unlocked",
+            "text": "blablabalbalbalbla2"
+        },
+        {
+            "id": "3",
+            "orderNum": "2",
+            "text": "blablabalbalbalbla2"
+        }
+    ]
+}
