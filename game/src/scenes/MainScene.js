@@ -2,6 +2,7 @@ import { CST } from "../CST.js";
 import { calculateClickingMultiplier, calculateAutoMining, calculateExchangeRate } from "../functional.js"
 import { PcShop } from "./PcShop.js";
 import { TechShop } from "./TechShop.js";
+import { BlockchainLibrary } from "./BlockchainLibrary.js";
 
 var text
 
@@ -20,7 +21,6 @@ export class MainScene extends Phaser.Scene {
         this.userData = this.registry.get("userdata")
     }
     preload() {
-        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
     }
     create() { // creating the MainScene
         console.log("create");
@@ -40,16 +40,17 @@ export class MainScene extends Phaser.Scene {
 
         this.exp = 1
         this.exchangeRate = calculateExchangeRate(1) // 1 - default
-        this.exchangeMode = undefined
+        this.exchangeMode = 1 // 1 - 100% default
+        
 
         
 
         //create additional scenes   
 
-        
 
         let pcShop = this.createWindow(PcShop)
         let techShop = this.createWindow(TechShop)
+        let bcLibrary = this.createWindow(BlockchainLibrary)
 
 
         //create images (z order)
@@ -67,6 +68,12 @@ export class MainScene extends Phaser.Scene {
         let exchangeBtn = this.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, "exchange_btn")
         let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive()
         let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive()
+            exchange100.setScale(0.9).setTint(0x808080)
+            exchange50.setScale(1).setTint()
+            this.exchangeMode = 1
+            exchangeBtn.setInteractive()
+        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive()
+        
 
         //create text
         this.moneyCounter = this.add.text(sceneWidth * 0.2, sceneHeight * 0.06, `Money: ${this.userData.moneyCurrency}`)
@@ -80,7 +87,7 @@ export class MainScene extends Phaser.Scene {
 
         //create dialogWindows
         
-        let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, exchange50]
+        let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, exchange50, bcLibraryBtn]
 
         this.registry.set("mainSceneBtns", mainSceneBtns)
         console.log(this.registry.get("mainSceneBtns"));
@@ -157,7 +164,15 @@ export class MainScene extends Phaser.Scene {
             techShopBtn.setScale(1)
         })
 
-        
+        bcLibraryBtn.on("pointerdown", () => {
+            bcLibraryBtn.setScale(0.95)
+            this.scene.launch(CST.MENU.BCLIBRARY)
+            this.registry.get("mainSceneBtns").forEach((el) => {el.disableInteractive()}) 
+        }).on("pointerout", () => { 
+            bcLibraryBtn.setScale(1)
+        }).on("pointerup", () => { 
+            bcLibraryBtn.setScale(1)
+        })
         
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)
@@ -195,22 +210,21 @@ export class MainScene extends Phaser.Scene {
     }
 
     createWindow(func) {
-        let x;
-        let y;
+        let x = this.game.renderer.width / 2
+        let y = this.game.renderer.height / 2
         let key;
         
         switch (func) {
             case PcShop:
-                x = this.game.renderer.width / 2
-                y = this.game.renderer.height / 2
                 key = CST.MENU.PCSHOP
                 break;
 
             case TechShop:
-                x = this.game.renderer.width / 2
-                y = this.game.renderer.height / 2
                 key = CST.MENU.TECHSHOP
                 break;
+            
+            case BlockchainLibrary:
+                key = CST.MENU.BCLIBRARY
 
             default:
                 break;

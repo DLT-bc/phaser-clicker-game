@@ -6,6 +6,7 @@ export const CST = {
     },
     MENU: {
         PCSHOP: "PCSHOP",
-        TECHSHOP: "TECHSHOP"
+        TECHSHOP: "TECHSHOP",
+        BCLIBRARY: "BCLIBRARY"
     }
 }

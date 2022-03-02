@@ -1,5 +1,8 @@
+
+
 import { CST } from "../CST.js";
 import { MenuScene } from "./MenuScene.js";
+
 
 export class LoadScene extends Phaser.Scene {
 
@@ -13,6 +16,10 @@ export class LoadScene extends Phaser.Scene {
 
     }
     preload() {
+
+        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+
+
         //change resolution
         //load image, spritesheet, sound
 
@@ -28,6 +35,11 @@ export class LoadScene extends Phaser.Scene {
         //main
         this.load.image("logo", "./dist/assets/dlt_logo.png")
         this.load.image("main_pc", "./dist/assets/main_pc.png")
+        //main buttons
+        this.load.image("pc_shop_btn", "./dist/assets/pc_shop_btn.png")
+        this.load.image("tech_shop_btn", "./dist/assets/tech_shop_btn.png")
+        this.load.image("bc_library_btn", "./dist/assets/bc_library_btn.png")
+
 
         //main exchange
         this.load.image("exchange_btn", "./dist/assets/exchange_btn.png")
@@ -36,15 +48,14 @@ export class LoadScene extends Phaser.Scene {
         
 
         //pc shop
-        this.load.image("pc_shop_btn", "./dist/assets/pc_shop_btn.png")
+        
         this.load.image("buy_main_btn", "./dist/assets/buy_main_btn.png")
         this.load.image("buy_mining_btn", "./dist/assets/buy_mining_btn.png")
         this.load.image("buy_server_btn", "./dist/assets/buy_server_btn.png")
         this.load.image("exit_btn", "./dist/assets/exit_btn.png")
 
         //tech shop
-        this.load.image("tech_shop_btn", "./dist/assets/tech_shop_btn.png")
-
+        
 
         
        
