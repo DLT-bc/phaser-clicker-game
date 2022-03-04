@@ -1,4 +1,4 @@
-
+import { CST } from "../CST.js";
 
 export class TechShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -46,6 +46,8 @@ export class TechShop extends Phaser.Scene {
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
+
+            this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
         }).on("pointerup", () => {
             exitBtn.setScale(1)
             this.scene.sleep()

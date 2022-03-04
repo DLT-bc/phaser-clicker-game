@@ -9,6 +9,10 @@ export class PcShop extends Phaser.Scene {
 
     init() {
         this.userData = this.registry.get("userdata")
+        this.playerTexts = this.registry.get("player_texts")
+        console.log(this.playerTexts);
+        this.counter = this.registry.get("texts_counter")
+        console.log(this.counter);
     }
 
     create (data) {
@@ -68,10 +72,6 @@ export class PcShop extends Phaser.Scene {
 
 
         let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
-
-        
-        
-        
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -81,6 +81,13 @@ export class PcShop extends Phaser.Scene {
         const exitBtnMask = exitBtnShape.createGeometryMask();
         exitBtn.setMask(exitBtnMask)
         */
+
+
+        
+
+        
+        
+
 
         buyMainBtn.on("pointerdown", () => {
             buyMainBtn.setScale(0.85)
@@ -104,6 +111,12 @@ export class PcShop extends Phaser.Scene {
                 this.userData.miningPcLvl++
             } else {
                 alert("not enough money")
+            }
+
+            if(this.userData.miningPcLvl == 10) {
+                this.playerTexts.set(`Theme ${this.counter}`, 2)
+                this.counter++
+                this.registry.set("texts_counter", this.counter)
             }
         }).on("pointerup", () => {
             buyMiningBtn.setScale(0.9)
@@ -135,7 +148,8 @@ export class PcShop extends Phaser.Scene {
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
-            
+
+            this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
         }).on("pointerup", () => {
             exitBtn.setScale(1)
             this.scene.sleep()

@@ -4,7 +4,6 @@ import { PcShop } from "./PcShop.js";
 import { TechShop } from "./TechShop.js";
 import { BlockchainLibrary } from "./BlockchainLibrary.js";
 
-var text
 
 export class MainScene extends Phaser.Scene {
 
@@ -21,12 +20,15 @@ export class MainScene extends Phaser.Scene {
         this.userData = this.registry.get("userdata")
     }
     preload() {
+
     }
     create() { // creating the MainScene
         console.log("create");
 
         const sceneWidth = this.game.renderer.width
         const sceneHeight = this.game.renderer.height
+
+        this.add.image(0, 0, "background_layer").setOrigin(0, 0).setAlpha(0.2)
 
         this.scale.lockOrientation('landscape')
         this.orientationText = this.add.text(320, 128, 'Please set your\nphone to landscape', { font: '48px Courier', fill: '#00ff00', align: 'center' }).setOrigin(0.5);
@@ -35,15 +37,17 @@ export class MainScene extends Phaser.Scene {
         this.scale.on('orientationchange', this.checkOriention, this);
         this.scale.on('resize', this.resize, this);
 
-        
-        console.log(this.userData.cryptoCurrency);
 
         this.exp = 1
         this.exchangeRate = calculateExchangeRate(1) // 1 - default
         this.exchangeMode = 1 // 1 - 100% default
         
-
-        
+        let counterObj = { num: 2 }
+        this.counter = counterObj.num
+        this.playerTexts = new Map()
+        this.playerTexts.set("Theme 1", 1)
+        this.registry.set("player_texts", this.playerTexts)
+        this.registry.set("texts_counter", this.counter)
 
         //create additional scenes   
 
@@ -53,16 +57,18 @@ export class MainScene extends Phaser.Scene {
         let bcLibrary = this.createWindow(BlockchainLibrary)
 
 
-        //create images (z order)
+        
         
 
         
-
-        
+        let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
+        get1000.on('pointerdown', () => {
+            this.userData.cryptoCurrency += 1000
+        })
 
         //create sprites
 
-        let mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2, "main_pc").setInteractive()
+        let mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2.5, "main_pc").setInteractive()
         let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.9, "pc_shop_btn").setInteractive()
         let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * 1.25, sceneHeight * 0.9, "tech_shop_btn").setInteractive()
         let exchangeBtn = this.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, "exchange_btn")
@@ -74,6 +80,10 @@ export class MainScene extends Phaser.Scene {
             exchangeBtn.setInteractive()
         let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive()
         
+        //create images (z order)
+        
+        this.miningPc = this.add.image(mainPc.x - mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "mining_lvl1").setVisible(false)
+        if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true)}
         
         //create text
         this.moneyCounter = this.add.text(sceneWidth * 0.2, sceneHeight * 0.06, `Money: ${this.userData.moneyCurrency}`)
@@ -85,12 +95,13 @@ export class MainScene extends Phaser.Scene {
 
         //create animations
 
+        //mask layer
+        this.bg_layer = this.add.rectangle(0, 0, sceneWidth, sceneHeight, 0x121212, 0.5).setOrigin(0, 0).setVisible(false)
+
         //create dialogWindows
         
         let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, exchange50, bcLibraryBtn]
-
         this.registry.set("mainSceneBtns", mainSceneBtns)
-        console.log(this.registry.get("mainSceneBtns"));
          
         //make image buttons interactive
 
@@ -147,6 +158,8 @@ export class MainScene extends Phaser.Scene {
             pcShopBtn.setScale(0.95)
             this.scene.launch(CST.MENU.PCSHOP)
             this.registry.get("mainSceneBtns").forEach((el) => {el.disableInteractive()}) 
+
+            this.bg_layer.setVisible(true)
         }).on("pointerout", () => { 
             pcShopBtn.setScale(1)
         }).on("pointerup", () => { 
@@ -157,7 +170,9 @@ export class MainScene extends Phaser.Scene {
         techShopBtn.on("pointerdown", () => {
             techShopBtn.setScale(0.95)
             this.scene.launch(CST.MENU.TECHSHOP)
-            this.registry.get("mainSceneBtns").forEach((el) => {el.disableInteractive()}) 
+            this.registry.get("mainSceneBtns").forEach((el) => {el.disableInteractive()})
+
+            this.bg_layer.setVisible(true)
         }).on("pointerout", () => { 
             techShopBtn.setScale(1)
         }).on("pointerup", () => { 
@@ -248,8 +263,12 @@ export class MainScene extends Phaser.Scene {
         this.miningPcPrice = 100 + (50 * this.userData.miningPcLvl * Math.pow(1.1, this.exp))
         this.serverPcPrice = 100 + (50 * this.userData.serverPcLvl * Math.pow(1.1, this.exp))
 
-        
-        
+        if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true)}
+        if(this.userData.miningPcLvl >= 10 && this.userData.miningPcLvl < 20) {
+            this.miningPc.setTexture("mining_lvl2")
+        } else if(this.userData.miningPcLvl >= 20) {
+            this.miningPc.setTexture("mining_lvl2") // CHANGE TO LVL3
+        }
         
         
     }

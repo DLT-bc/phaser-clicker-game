@@ -10,6 +10,22 @@ export class BlockchainLibrary extends Phaser.Scene {
 
     init () {
         this.userData = this.registry.get("userdata")
+        this.counter = this.registry.get("texts_counter")
+        this.playerTexts = this.registry.get("player_texts")
+        this.textInfo = [
+            {
+                id: 1,
+                text: "Blockchain is a decentralized database"
+            },
+            {
+                id: 2,
+                text: "Congratulations! \nYou have upgraded your Mining PC to level 10!"
+            },
+            {
+                id: 3,
+                text: "blablabalbalbalbla3"
+            }
+        ]
     }
 
     create (data) {
@@ -27,8 +43,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         //this.cam.setMask(camShape.createGeometryMask())
 
        
-        let exitBtn = this.add.sprite(this.game.renderer.width + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
-        
+        let exitBtn = this.add.sprite(this.game.renderer.width + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()    
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -39,7 +54,11 @@ export class BlockchainLibrary extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
-        var scrollablePanel = this.rexUI.add.scrollablePanel({
+        
+        console.log("size: " + this.registry.get("player_texts").size)
+        
+        
+        this.scrollablePanel = this.rexUI.add.scrollablePanel({
             x: this.game.renderer.width * 0.3 / 2,
             y: this.game.renderer.height / 2 + this.game.renderer.height * 0.05,
             width: this.game.renderer.width * 0.3,
@@ -47,7 +66,7 @@ export class BlockchainLibrary extends Phaser.Scene {
 
             scrollMode: 0,
 
-            background: this.add.rectangle(this.x, this.y, this.width, this.height, COLOR_PRIMARY).setStrokeStyle(1, 0xFFFFFF),
+            background: this.add.rectangle(this.x, this.y, this.width, this.height, COLOR_PRIMARY),
 
             panel: {
                 child: createGrid(this),
@@ -74,13 +93,11 @@ export class BlockchainLibrary extends Phaser.Scene {
                 text: this.add.text(0, 0, 'Blockchain for everyone'),
             }),
 
-            // footer: this.rexUI.add.label({
-            //     height: 30,
-
-            //     orientation: 0,
-            //     background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_DARK),
-            //     text: this.add.text(0, 0, 'Footer'),
-            // }),
+            footer: this.rexUI.add.label({
+                height: 30,
+                orientation: 0,
+                background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_PRIMARY),
+            }),
 
             space: {
                 left: 10,
@@ -92,24 +109,30 @@ export class BlockchainLibrary extends Phaser.Scene {
                 header: 10,
                 footer: 10,
             }
-        })
-            .layout()
+        }).layout()
 
-        var print = this.add.text(0, 0, '');
-
-        scrollablePanel.setChildrenInteractive()
-        .on('child.click', function (child, pointer, event) {
-                print.text += `Click ${child.text}\n`;
-        })
-        .on('child.pressstart', function (child, pointer, event) {
-                print.text += `Press ${child.text}\n`;
-        })
-
-        var textPanel = this.add.rectangle(scrollablePanel.x + scrollablePanel.width / 2, scrollablePanel.y,
+        
+        var textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
             this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
             0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
 
+        var print = this.add.text(textPanel.x + 6, textPanel.y - textPanel.height / 2 + 6, this.textInfo[0].text, {
+            fontSize: '14px',
+            fontFamily: 'Montserrat',
+            color: '#000000',
+            align: 'left',
+            lineSpacing: 3
+        }).setOrigin(0, 0);
 
+        this.scrollablePanel.setChildrenInteractive()
+        .on('child.click', (child, pointer, event) => {
+            let id = this.playerTexts.get(child.text)
+            if (this.textInfo[id - 1].id == id) {
+                print.setText(this.textInfo[id - 1].text);
+            }
+ 
+        })
+        
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
@@ -125,9 +148,36 @@ export class BlockchainLibrary extends Phaser.Scene {
             exitBtn.setScale(1)
         })
 
-    }
-    update() {
 
+
+    }
+
+    addLabel(themeId) {
+        this.scrollablePanel.getElement('panel').add(this.rexUI.add.label({
+            width: this.game.renderer.width * 0.25, height: 60,
+
+            background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
+            text: this.add.text(0, 0, `Theme ${this.counter}`, {
+                fontSize: 18
+            }),
+
+            align: 'center',
+            space: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10,
+            }
+        }))
+        this.scrollablePanel.layout()
+
+        this.playerTexts.set(`Theme ${this.counter}`, themeId)
+        this.counter++
+    }
+
+    update() {
+        this.registry.set("player_texts", this.playerTexts)
+        this.registry.set("texts_counter", this.counter)
     }
 
 }
@@ -143,27 +193,28 @@ var createGrid = function (scene) {
             item: 8,
             line: 30,
         },
-    })
-        .addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
+    }).addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
 
-    for (var i = 0; i < 30; i++) {
+    for (let i = 1; i <= scene.registry.get("player_texts").size; i++) {
         sizer.add(scene.rexUI.add.label({
             width: scene.game.renderer.width * 0.25, height: 60,
-
             background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
-            text: scene.add.text(0, 0, `${i}`, {
+            text: scene.add.text(0, 0, `Theme ${i}`, {
                 fontSize: 18
             }),
-
+    
             align: 'center',
             space: {
-                left: 10,
+                   left: 10,
                 right: 10,
                 top: 10,
                 bottom: 10,
             }
         }));
+        
     }
+        
+    
 
     return sizer;
 }

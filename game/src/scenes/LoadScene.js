@@ -35,6 +35,9 @@ export class LoadScene extends Phaser.Scene {
         //main
         this.load.image("logo", "./dist/assets/dlt_logo.png")
         this.load.image("main_pc", "./dist/assets/main_pc.png")
+        this.load.image("mining_lvl1", "./dist/assets/mining_lvl1.png")
+        this.load.image("mining_lvl2", "./dist/assets/mining_lvl2.png")
+
         //main buttons
         this.load.image("pc_shop_btn", "./dist/assets/pc_shop_btn.png")
         this.load.image("tech_shop_btn", "./dist/assets/tech_shop_btn.png")
