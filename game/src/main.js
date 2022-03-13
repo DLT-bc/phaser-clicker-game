@@ -15,6 +15,10 @@ const config = {
     height: gameFieldHeight * 0.9,
     autoCenter: true,
     backgroundColor: "#444444",
+    parent: "main_div",
+    dom: {
+        createContainer: true
+    },
     scene: [
         LoadScene, MenuScene, MainScene, PcShop
     ]

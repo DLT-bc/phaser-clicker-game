@@ -15,7 +15,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         this.textInfo = [
             {
                 id: 1,
-                text: "Blockchain is a decentralized database"
+                text: "Blockchain is a decentralized database Blockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized database"
             },
             {
                 id: 2,
@@ -111,17 +111,23 @@ export class BlockchainLibrary extends Phaser.Scene {
             }
         }).layout()
 
-        
+        let textStyle = {
+            padding: "20px"
+        }
+
         var textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
             this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
             0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
+
+        //let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, "LAVANDOS ")
 
         var print = this.add.text(textPanel.x + 6, textPanel.y - textPanel.height / 2 + 6, this.textInfo[0].text, {
             fontSize: '14px',
             fontFamily: 'Montserrat',
             color: '#000000',
             align: 'left',
-            lineSpacing: 3
+            lineSpacing: 3,
+            maxLines: 100
         }).setOrigin(0, 0);
 
         this.scrollablePanel.setChildrenInteractive()
