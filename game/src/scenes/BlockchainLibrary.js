@@ -1,3 +1,5 @@
+import { textInfo } from "../info.js";
+
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
 const COLOR_DARK = 0xB92AD4;
@@ -12,20 +14,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         this.userData = this.registry.get("userdata")
         this.counter = this.registry.get("texts_counter")
         this.playerTexts = this.registry.get("player_texts")
-        this.textInfo = [
-            {
-                id: 1,
-                text: "Blockchain is a decentralized database Blockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized database"
-            },
-            {
-                id: 2,
-                text: "Congratulations! \nYou have upgraded your Mining PC to level 10!"
-            },
-            {
-                id: 3,
-                text: "blablabalbalbalbla3"
-            }
-        ]
+        this.textInfo = textInfo
     }
 
     create (data) {
@@ -90,7 +79,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             header: this.rexUI.add.label({
                 height: 30,
                 orientation: 0,
-                text: this.add.text(0, 0, 'Blockchain for everyone'),
+                text: this.add.text(0, 0, 'Blockchain for everyone', { fontSize: '14px', fontFamily: 'Montserrat'}),
             }),
 
             footer: this.rexUI.add.label({
@@ -112,16 +101,23 @@ export class BlockchainLibrary extends Phaser.Scene {
         }).layout()
 
         let textStyle = {
-            padding: "20px"
+            width: "67%",
+            height: "80%",
+            top: "44%",
+            left: "35%",
+            //border: "dashed red",
+            fontSize: '18px',
+            fontFamily: 'Montserrat'
         }
 
         var textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
             this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
             0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
 
-        //let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, "LAVANDOS ")
+        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, this.textInfo[0].text)
+        console.log(text);
 
-        var print = this.add.text(textPanel.x + 6, textPanel.y - textPanel.height / 2 + 6, this.textInfo[0].text, {
+        /* var print = this.add.text(textPanel.x + 6, textPanel.y - textPanel.height / 2 + 6, this.textInfo[0].text, {
             fontSize: '14px',
             fontFamily: 'Montserrat',
             color: '#000000',
@@ -129,12 +125,13 @@ export class BlockchainLibrary extends Phaser.Scene {
             lineSpacing: 3,
             maxLines: 100
         }).setOrigin(0, 0);
+        */
 
         this.scrollablePanel.setChildrenInteractive()
         .on('child.click', (child, pointer, event) => {
             let id = this.playerTexts.get(child.text)
             if (this.textInfo[id - 1].id == id) {
-                print.setText(this.textInfo[id - 1].text);
+                text.innerText = this.textInfo[id - 1].text;
             }
  
         })
@@ -153,8 +150,6 @@ export class BlockchainLibrary extends Phaser.Scene {
         }).on("pointerout", () => {
             exitBtn.setScale(1)
         })
-
-
 
     }
 

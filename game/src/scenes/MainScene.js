@@ -18,12 +18,18 @@ export class MainScene extends Phaser.Scene {
         console.log("init");
         console.log(data);
         this.userData = this.registry.get("userdata")
+
+        if(localStorage.getItem("isFirstStart") != 0) {
+            localStorage.setItem("isFirstStart", 1)
+        }
     }
     preload() {
 
     }
     create() { // creating the MainScene
         console.log("create");
+
+        
 
         const sceneWidth = this.game.renderer.width
         const sceneHeight = this.game.renderer.height
@@ -68,9 +74,14 @@ export class MainScene extends Phaser.Scene {
 
         //create sprites
 
+        
+        
         let mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2.5, "main_pc").setInteractive()
+
         let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.9, "pc_shop_btn").setInteractive()
         let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * 1.25, sceneHeight * 0.9, "tech_shop_btn").setInteractive()
+        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive()
+
         let exchangeBtn = this.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, "exchange_btn")
         let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive()
         let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive()
@@ -78,10 +89,8 @@ export class MainScene extends Phaser.Scene {
             exchange50.setScale(1).setTint()
             this.exchangeMode = 1
             exchangeBtn.setInteractive()
-        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive()
         
         //create images (z order)
-        
         this.miningPc = this.add.image(mainPc.x - mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "mining_lvl1").setVisible(false)
         if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true)}
         
@@ -112,6 +121,13 @@ export class MainScene extends Phaser.Scene {
                 pointerup - click and release
                 pointerdown - just click
         */
+
+
+
+        if(localStorage.getItem("isFirstStart") != 0) {
+            this.scene.pause()
+            this.scene.launch(CST.SCENES.GREETING)
+        }
 
         //main pc clicking button
         mainPc.on("pointerdown", () => {

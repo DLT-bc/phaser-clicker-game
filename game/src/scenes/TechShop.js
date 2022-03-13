@@ -1,3 +1,7 @@
+const COLOR_PRIMARY = 0x502C88;
+const COLOR_LIGHT = 0xA574EB;
+const COLOR_DARK = 0xB92AD4;
+
 import { CST } from "../CST.js";
 
 export class TechShop extends Phaser.Scene {
@@ -24,11 +28,15 @@ export class TechShop extends Phaser.Scene {
         this.cam.setMask(camShape.createGeometryMask())
 
        
-        let exitBtn = this.add.sprite(TechShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
+        
 
         
+
         
-        
+
+
+
+        let exitBtn = this.add.sprite(TechShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -39,10 +47,7 @@ export class TechShop extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
-
-
         const mainMenuBtns = this.registry.get("mainSceneBtns")
-        
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
@@ -60,7 +65,10 @@ export class TechShop extends Phaser.Scene {
     }
     update() {
     }
+
 }
+
+
 
 TechShop.WIDTH = document.documentElement.clientWidth * 0.7
 TechShop.HEIGHT = document.documentElement.clientHeight * 0.7
