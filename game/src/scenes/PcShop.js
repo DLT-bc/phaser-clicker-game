@@ -1,5 +1,5 @@
 import { CST } from "../CST.js";
-import { calculatePcPrice } from "../functional.js";
+import { calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
 
 export class PcShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -28,15 +28,15 @@ export class PcShop extends Phaser.Scene {
         camShape.fillStyle(0xff00ff, 1)
         this.cam.setMask(camShape.createGeometryMask())
 
-        this.mainPcPrice = calculatePcPrice(this.userData.mainPcLvl)
-        this.miningPcPrice = calculatePcPrice(this.userData.miningPcLvl)
-        this.serverPcPrice = calculatePcPrice(this.userData.serverPcLvl)
+        this.mainPcPrice = calculateMainPrice(this.userData.mainPcLvl)
+        this.miningPcPrice = calculateMiningPrice(this.userData.miningPcLvl)
+        this.serverPcPrice = calculateServerPrice(this.userData.serverPcLvl)
 
         //add sprites
         let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.01 , PcShop.HEIGHT * 0.4, "buy_main_btn").setScale(0.9).setInteractive()
         buyMainBtn.x += buyMainBtn.width / 2
         this.buyMainTitle = this.add.text(buyMainBtn.x + buyMainBtn.width / 1.5, buyMainBtn.y - 5,
-                "Price: " + calculatePcPrice(this.userData.mainPcLvl) + "\n"
+                "Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n"
                 + "Level: " + this.userData.mainPcLvl, {
                 fontSize: '25px',
                 fontFamily: 'Montserrat',
@@ -45,11 +45,10 @@ export class PcShop extends Phaser.Scene {
                 lineSpacing: 3
             }).setOrigin(0.5, 0.5)
     
-
         let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMainBtn.y + buyMainBtn.height * 1.1, "buy_mining_btn").setScale(0.9).setInteractive()
         buyMiningBtn.x += buyMiningBtn.width / 2
         this.buyMiningTitle = this.add.text(buyMiningBtn.x + buyMiningBtn.width / 1.5, buyMiningBtn.y - 5,
-            "Price: " + calculatePcPrice(this.userData.miningPcLvl) + "\n"
+            "Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n"
              + "Level: " + this.userData.miningPcLvl, {
                fontSize: '25px',
                fontFamily: 'Montserrat',
@@ -61,7 +60,7 @@ export class PcShop extends Phaser.Scene {
         let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMiningBtn.y + buyMiningBtn.height * 1.1, "buy_server_btn").setScale(0.9).setInteractive()
         buyServerBtn.x += buyServerBtn.width / 2
         this.buyServerTitle = this.add.text(buyServerBtn.x + buyServerBtn.width / 1.5, buyServerBtn.y - 5,
-            "Price: " + calculatePcPrice(this.userData.serverPcLvl) + "\n"
+            "Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n"
              + "Level: " + this.userData.serverPcLvl, {
                fontSize: '25px',
                fontFamily: 'Montserrat',
@@ -91,8 +90,9 @@ export class PcShop extends Phaser.Scene {
 
         buyMainBtn.on("pointerdown", () => {
             buyMainBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.mainPcLvl)){
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.mainPcLvl)
+            let pcPrice = calculateMainPrice(this.userData.mainPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice){
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.mainPcLvl++
             } else {
                 alert("not enough money")
@@ -106,8 +106,9 @@ export class PcShop extends Phaser.Scene {
 
         buyMiningBtn.on("pointerdown", () => {
             buyMiningBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.miningPcLvl)) {
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.miningPcLvl)
+            let pcPrice = calculateMiningPrice(this.userData.miningPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice) {
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.miningPcLvl++
             } else {
                 alert("not enough money")
@@ -126,8 +127,9 @@ export class PcShop extends Phaser.Scene {
 
         buyServerBtn.on("pointerdown", () => {
             buyServerBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.serverPcLvl)) {
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.serverPcLvl)
+            let pcPrice = calculateServerPrice(this.userData.serverPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice) {
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.serverPcLvl++
             } else {
                 alert("not enough money")
@@ -161,9 +163,9 @@ export class PcShop extends Phaser.Scene {
 
     }
     update() {
-        this.buyMainTitle.setText("Price: " + calculatePcPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
-        this.buyMiningTitle.setText("Price: " + calculatePcPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
-        this.buyServerTitle.setText("Price: " + calculatePcPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
+        this.buyMainTitle.setText("Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
+        this.buyMiningTitle.setText("Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
+        this.buyServerTitle.setText("Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
     }
 }
 

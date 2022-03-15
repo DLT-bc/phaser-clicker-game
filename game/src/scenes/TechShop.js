@@ -34,7 +34,7 @@ export class TechShop extends Phaser.Scene {
 
         
 
-
+        
 
         let exitBtn = this.add.sprite(TechShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
         /* rounded exit btn
