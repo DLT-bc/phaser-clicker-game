@@ -1,5 +1,5 @@
 import { CST } from "../CST.js";
-import { calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
+import { calculateClickingMultiplier, calculateAutoMining, calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
 
 export class PcShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -96,7 +96,11 @@ export class PcShop extends Phaser.Scene {
                 this.userData.mainPcLvl++
             } else {
                 alert("not enough money")
+                return
             }
+
+            this.buyMainTitle.setText("Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} eth/click`)
 
         }).on("pointerup", () => {
             buyMainBtn.setScale(0.9)
@@ -112,7 +116,12 @@ export class PcShop extends Phaser.Scene {
                 this.userData.miningPcLvl++
             } else {
                 alert("not enough money")
+                return
             }
+
+            this.buyMiningTitle.setText("Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} eth/s`)
+            this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
 
             if(this.userData.miningPcLvl == 10) {
                 this.playerTexts.set(`Theme ${this.counter}`, 2)
@@ -133,7 +142,14 @@ export class PcShop extends Phaser.Scene {
                 this.userData.serverPcLvl++
             } else {
                 alert("not enough money")
+                return
             }
+
+            this.changeServerPicture(this.scene.get(CST.SCENES.MAIN))
+
+            this.buyServerTitle.setText("Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
+
+
         }).on("pointerup", () => {
             buyServerBtn.setScale(0.9)
     
@@ -162,10 +178,25 @@ export class PcShop extends Phaser.Scene {
         })
 
     }
+
+    changeMiningPicture(scene) {
+        if (scene.userData.miningPcLvl != 0) { scene.miningPc.setVisible(true)}
+        if(scene.userData.miningPcLvl >= 10 && scene.userData.miningPcLvl < 20) {
+            scene.miningPc.setTexture("mining_lvl2")
+        } else if(scene.userData.miningPcLvl >= 20) {
+            scene.miningPc.setTexture("mining_lvl3")
+        }
+    }
+    changeServerPicture(scene) {
+        if (scene.userData.serverPcLvl != 0) { scene.serverPc.setVisible(true)}
+        if(scene.userData.serverPcLvl >= 10 && scene.userData.serverPcLvl < 20) {
+            scene.serverPc.setTexture("mining_lvl2")
+        } else if(scene.userData.serverPcLvl >= 20) {
+            scene.serverPc.setTexture("mining_lvl3")
+        }   
+    }
+
     update() {
-        this.buyMainTitle.setText("Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
-        this.buyMiningTitle.setText("Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
-        this.buyServerTitle.setText("Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
     }
 }
 

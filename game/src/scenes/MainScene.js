@@ -43,6 +43,7 @@ export class MainScene extends Phaser.Scene {
         this.scale.on('orientationchange', this.checkOriention, this);
         this.scale.on('resize', this.resize, this);
 
+        let timePassed = (Date.now() - localStorage.getItem("savedDate")) / 60000
 
         this.exp = 1
         this.exchangeRate = calculateExchangeRate(1) // 1 - default
@@ -82,22 +83,22 @@ export class MainScene extends Phaser.Scene {
         let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * 1.25, sceneHeight * 0.9, "tech_shop_btn").setInteractive()
         let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive()
 
-        let exchangeBtn = this.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, "exchange_btn")
-        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive()
-        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive()
-            exchange100.setScale(0.9).setTint(0x808080)
-            exchange50.setScale(1).setTint()
-            this.exchangeMode = 1
-            exchangeBtn.setInteractive()
+        let exchangeBtn = this.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, "exchange_btn").setInteractive()
+        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive().setScale(0.9).setTint(0x808080)
+        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive().setScale(1).setTint()
         
         //create images (z order)
         this.miningPc = this.add.image(mainPc.x - mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "mining_lvl1").setVisible(false)
-        if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true)}
+        if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true) }
+        this.serverPc = this.add.image(mainPc.x + mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "server_lvl1").setVisible(false).setInteractive()
+        if (this.userData.serverPcLvl != 0) { this.serverPc.setVisible(true) }
         
         //create text
         this.moneyCounter = this.add.text(sceneWidth * 0.2, sceneHeight * 0.06, `Money: ${this.userData.moneyCurrency}`)
         this.cryptoCounter = this.add.text(sceneWidth * 0.6, sceneHeight * 0.06, `Crypto: ${this.userData.cryptoCurrency}`)
         this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} eth/s`)
+        this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} eth/click`)
+        this.serverValueTitle = this.add.text(this.serverPc.x, this.serverPc.y - this.serverPc.height, `${timePassed} eth`).setVisible(false)
         this.exchangeRateTitle = this.add.text(sceneWidth * 0.85, exchangeBtn.y - exchangeBtn.height * 0.7, `Exchange Rate: ${this.exchangeRate}`).setOrigin(0.5)
 
         //create audio, disable pauseonblur
@@ -122,7 +123,11 @@ export class MainScene extends Phaser.Scene {
                 pointerdown - just click
         */
 
-
+        if(this.userData.serverPcLvl == 0) {
+            timePassed = 0
+        } else {
+            this.serverValueTitle.setVisible(true)
+        }
 
         if(localStorage.getItem("isFirstStart") != 0) {
             this.scene.pause()
@@ -138,6 +143,17 @@ export class MainScene extends Phaser.Scene {
             mainPc.setScale(1).setTint()
         }).on("pointerup", () => {
             mainPc.setScale(1).setTint()
+        })
+
+        
+        this.serverPc.on("pointerdown", () => {
+            this.serverPc.setScale(0.95).setTint(0x808080)
+            this.userData.cruptoCurrency += Math.min(calculateServerStorage(this.userData.serverPcLvl, this.userData.serverPcTechLvl), Math.floor(timePassed))
+            timePassed = 0
+        }).on("pointerout", () => {
+            this.serverPc.setScale(1).setTint()
+        }).on("pointerup", () => {
+            this.serverPc.setScale(1).setTint()
         })
 
         //exchange btns
@@ -204,9 +220,15 @@ export class MainScene extends Phaser.Scene {
         }).on("pointerup", () => { 
             bcLibraryBtn.setScale(1)
         })
+
+
+        
+
+        
         
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)
+            localStorage.setItem("savedDate", Date.now())
         } , 1000)
 
         setInterval(() => {
@@ -270,21 +292,18 @@ export class MainScene extends Phaser.Scene {
     update() {
 
         this.cryptoCounter.setText(`Crypyto: ${Math.floor(this.userData.cryptoCurrency* 100) / 100}`)
-        this.cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} eth/s`)
 
         this.moneyCounter.setText(`Money: ${Math.floor(this.userData.moneyCurrency * 100) / 100}`)
 
 
-        this.mainPcPrice = 100 + (50 * this.userData.mainPcLvl * Math.pow(1.1, this.exp))
-        this.miningPcPrice = 100 + (50 * this.userData.miningPcLvl * Math.pow(1.1, this.exp))
-        this.serverPcPrice = 100 + (50 * this.userData.serverPcLvl * Math.pow(1.1, this.exp))
+        //this.mainPcPrice = 100 + (50 * this.userData.mainPcLvl * Math.pow(1.1, this.exp))
+        //this.miningPcPrice = 100 + (50 * this.userData.miningPcLvl * Math.pow(1.1, this.exp))
+        //this.serverPcPrice = 100 + (50 * this.userData.serverPcLvl * Math.pow(1.1, this.exp))
 
-        if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true)}
-        if(this.userData.miningPcLvl >= 10 && this.userData.miningPcLvl < 20) {
-            this.miningPc.setTexture("mining_lvl2")
-        } else if(this.userData.miningPcLvl >= 20) {
-            this.miningPc.setTexture("mining_lvl2") // CHANGE TO LVL3
-        }
+        
+
+        
+        
         
         
     }

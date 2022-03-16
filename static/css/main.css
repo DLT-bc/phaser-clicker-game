@@ -1,0 +1,422 @@
+*{
+	box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+html {
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+}
+
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+    background: #563092;
+    background: -webkit-linear-gradient(-135deg, #563092, #0F0223);
+    background: -o-linear-gradient(-135deg, #563092, #0F0223);
+    background: -moz-linear-gradient(-135deg, #563092, #0F0223);
+    background: linear-gradient(-135deg, #563092, #0F0223);
+}
+
+.container {  
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    position: relative;
+    padding: 10px;
+}
+
+/* Стили для планшетов */
+@media(min-width:768px) and (max-width: 1024px){
+    .container{
+        width: 100%;
+        max-width: 688px;
+        margin: 0 auto;
+        position: relative;
+       
+    }
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .container{
+        width: 100%;
+        max-width: 363px;
+        margin: 0 auto;
+        position: relative;
+        padding: 0 10px;
+    }
+}
+
+header {
+    width: 100%;
+    padding-top: 30px;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    header {
+        width: 100%;
+        padding-top: 0;
+    }
+}
+
+.header_section {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .logo{
+        width: 100%;
+        max-width: 125px;
+        height: auto;
+        object-fit: cover;
+    }
+}
+
+header .nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav_buttons {
+    display: flex;
+    align-items: center;
+}
+
+.nav_buttons .lang {
+    background-color: #B92AD4;
+    border: 2px solid #1F0B3F;
+    border-radius: 20px;
+    color: #FFFFFF;
+    width: 70px;
+    height: 56px;
+    font-size: 22px;
+    font-weight: bold;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s ease;
+}
+
+.nav_buttons .lang:hover {
+    background: #9B24B2;
+    cursor: pointer;
+}
+
+.nav_buttons .lang .lang-position {
+    padding: 15px;
+}
+
+.nav_buttons .log_btn {
+    background-color: #B92AD4;
+    border-radius: 20px;
+    border: 2px solid #1F0B3F;
+    width: 140px;
+    height: 56px;
+    margin-left: 31px;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    padding: 13px 0;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s ease;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .nav_buttons .log_btn {
+        background-color: #B92AD4;
+        border-radius: 20px;
+        border: 2px solid #1F0B3F;
+        width: 90px;
+        height: 56px;
+        margin-left: 15px;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-size: 22px;
+        text-align: center;
+        padding: 13px 0;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        transition: all 0.5s ease;
+    }
+}
+.nav_buttons .log_btn:hover{
+    background:  #9B24B2;
+    cursor: pointer;
+}
+
+.nav_buttons .log_btn a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;    
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+.nav_buttons .log_btn a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;    
+ }
+}
+
+.menu a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .menu a {
+     display: none;
+    }
+    }
+    
+.description {
+    padding: 84px 0;
+}
+
+.description .blockchain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+.description .blockchain {
+    display: block;
+}
+}
+
+.ober{
+    width: 50%;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .ober{
+        display: none;
+    }
+}
+
+.description .basic_img{
+    width: 100%;
+    max-width: 669px;
+    height: auto;
+    object-fit: cover;
+} 
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .description .basic_img{
+        display: none;
+    } 
+}
+
+.block {
+   width: 40%;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .block {
+        width: 100%;
+     }
+}
+
+.ober_money{
+    width: 40%;
+    height: auto;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+ .money{
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    object-fit: cover;
+}  
+}
+
+.block .block-title-img {
+    display: flex;
+    align-items:center;
+}
+
+.titl1{
+    color: #fff;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    margin-right: 8px;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.7);
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .titl1{
+        color: #fff;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 40px;
+        margin-right: 8px;
+        text-shadow: 2px 4px 3px rgba(0,0,0,0.7);
+    }
+   }
+.title{
+    color: #fff;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.titl1 span{
+   color: #76D6EA;
+}
+
+h2.title{   
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 37px;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0 auto;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.description-title{
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 37px;
+}
+
+.button{
+    font-weight: bold;
+    font-size: 27px;
+    line-height: 33px;
+    color: #fff;
+    background-color: #D140B1;
+    padding: 19px 0;
+    width: 272px;
+    margin-top: 30px;
+    display: block;
+    text-align: center;
+    border-radius: 100px;
+    border: 1px solid #1F0B3F;
+    transition: all 0.5s ease;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .button{
+        font-weight: bold;
+        font-size: 27px;
+        line-height: 33px;
+        color: #fff;
+        background-color: #D140B1;
+        padding: 19px 0;
+        width: 250px;
+        margin-top: 30px;
+        display: block;
+        text-align: center;
+        border-radius: 100px;
+        border: 1px solid #1F0B3F;
+        transition: all 0.5s ease;
+    }
+}
+
+.button:hover{
+    background: #b91896;
+    cursor: pointer;
+}
+
+.offer{
+    margin-top: 50px;
+}
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .offer{
+        margin-top: 0;
+    }
+}
+
+.arr_btn_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.arr_btn{
+    position: relative;
+}
+
+.arrow{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    left: -70px;
+    top: calc(50% - 25px);
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .arrow{
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        left: -60px;
+        top: calc(50% - 25px);
+    }
+}
+
+footer{
+    margin-top: 51px;
+    padding: 33px 0;
+    background-color: #202242; 
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    footer{
+        margin-top: 51px;
+        padding: 20px 0;
+        background-color: #202242; 
+    }
+}
+
+.footer-description{
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+    color:#fff;
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .footer-description{
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        text-align: center;
+        color:#fff;
+    }
+}

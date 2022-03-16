@@ -129,10 +129,12 @@ export class BlockchainLibrary extends Phaser.Scene {
 
         this.scrollablePanel.setChildrenInteractive()
         .on('child.click', (child, pointer, event) => {
+            child.setScale(0.95)
             let id = this.playerTexts.get(child.text)
             if (this.textInfo[id - 1].id == id) {
                 text.innerText = this.textInfo[id - 1].text;
             }
+            setTimeout(() => {child.setScale(1)}, 100)
  
         })
         
