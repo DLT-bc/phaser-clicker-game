@@ -8,8 +8,8 @@ import { MenuScene } from "./scenes/MenuScene.js";
 import { PcShop } from "./scenes/PcShop.js";
 import { TechShop } from "./scenes/TechShop.js";
 
-const gameFieldWidth = document.documentElement.clientWidth
-const gameFieldHeight = document.documentElement.clientHeight
+const gameFieldWidth = window.innerWidth
+const gameFieldHeight = window.innerHeight
 console.log(gameFieldWidth, gameFieldHeight);
 
 
@@ -19,15 +19,16 @@ var targetHeight = 640 // 640х960 - это iPhone 4, под меньшее ра
 var deviceRatio = window.innerWidth / window.innerHeight
 var newRatio = (targetHeight / targetWidth) * deviceRatio
             
-var newWidth = targetWidth * newRatio
-var newHeight = targetHeight
+var newWidth = targetWidth / newRatio
+var newHeight = targetHeight / newRatio
 
 console.log(newWidth, newHeight)
+console.log(newRatio);
 
 const config = {
     type: Phaser.AUTO,
-    width: newWidth / 3,
-    height: newHeight / 2,
+    width: newWidth,
+    height: newHeight,
     autoCenter: true,
     backgroundColor: "#444444",
     parent: "main_div",
