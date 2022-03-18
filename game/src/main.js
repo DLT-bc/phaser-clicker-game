@@ -26,8 +26,8 @@ console.log(newWidth, newHeight)
 
 const config = {
     type: Phaser.AUTO,
-    width: newWidth,
-    height: newHeight,
+    width: newWidth / 2,
+    height: newHeight / 2,
     autoCenter: true,
     backgroundColor: "#444444",
     parent: "main_div",
