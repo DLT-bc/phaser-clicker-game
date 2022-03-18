@@ -124,6 +124,10 @@ export class MainScene extends Phaser.Scene {
         
         let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, exchange50, bcLibraryBtn]
         this.registry.set("mainSceneBtns", mainSceneBtns)
+
+        mainSceneBtns.forEach(element => {
+            element.setScale(0.5)
+        });
          
         //make image buttons interactive
 
