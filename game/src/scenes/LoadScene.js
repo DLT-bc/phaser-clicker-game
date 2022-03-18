@@ -59,10 +59,8 @@ export class LoadScene extends Phaser.Scene {
 
         //tech shop
         
+        this.load.image("buy_tech_btn", "./dist/assets/buy_tech_btn.png")
         
-        
-       
-
         
 
         //create loading bar

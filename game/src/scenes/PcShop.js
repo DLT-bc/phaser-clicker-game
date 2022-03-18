@@ -1,4 +1,5 @@
 import { CST } from "../CST.js";
+import { drawDebugBounds } from "../debug.js";
 import { calculateClickingMultiplier, calculateAutoMining, calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
 
 export class PcShop extends Phaser.Scene {
@@ -36,38 +37,38 @@ export class PcShop extends Phaser.Scene {
         let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.01 , PcShop.HEIGHT * 0.4, "buy_main_btn").setScale(0.9).setInteractive()
         buyMainBtn.x += buyMainBtn.width / 2
         this.buyMainTitle = this.add.text(buyMainBtn.x + buyMainBtn.width / 1.5, buyMainBtn.y - 5,
-                "Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n"
-                + "Level: " + this.userData.mainPcLvl, {
+            `Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`, 
+            {
                 fontSize: '25px',
                 fontFamily: 'Montserrat',
                 color: '#ffffff',
                 align: 'left',
                 lineSpacing: 3
-            }).setOrigin(0.5, 0.5)
+        }).setOrigin(0.5, 0.5)
     
         let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMainBtn.y + buyMainBtn.height * 1.1, "buy_mining_btn").setScale(0.9).setInteractive()
         buyMiningBtn.x += buyMiningBtn.width / 2
         this.buyMiningTitle = this.add.text(buyMiningBtn.x + buyMiningBtn.width / 1.5, buyMiningBtn.y - 5,
-            "Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n"
-             + "Level: " + this.userData.miningPcLvl, {
+            `Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`, 
+            {
                fontSize: '25px',
                fontFamily: 'Montserrat',
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-           }).setOrigin(0.5, 0.5)
+        }).setOrigin(0.5, 0.5)
 
         let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMiningBtn.y + buyMiningBtn.height * 1.1, "buy_server_btn").setScale(0.9).setInteractive()
         buyServerBtn.x += buyServerBtn.width / 2
         this.buyServerTitle = this.add.text(buyServerBtn.x + buyServerBtn.width / 1.5, buyServerBtn.y - 5,
-            "Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n"
-             + "Level: " + this.userData.serverPcLvl, {
+            `Price: ${calculateServerPrice(this.userData.serverPcLvl)} $\nLevel: ${this.userData.serverPcLvl}`, 
+            {
                fontSize: '25px',
                fontFamily: 'Montserrat',
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-           }).setOrigin(0.5, 0.5)
+        }).setOrigin(0.5, 0.5)
 
 
         let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
@@ -99,8 +100,8 @@ export class PcShop extends Phaser.Scene {
                 return
             }
 
-            this.buyMainTitle.setText("Price: " + calculateMainPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} eth/click`)
+            this.buyMainTitle.setText(`Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} Ξ/click`)
 
         }).on("pointerup", () => {
             buyMainBtn.setScale(0.9)
@@ -119,8 +120,8 @@ export class PcShop extends Phaser.Scene {
                 return
             }
 
-            this.buyMiningTitle.setText("Price: " + calculateMiningPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} eth/s`)
+            this.buyMiningTitle.setText(`Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} Ξ/s`)
             this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
 
             if(this.userData.miningPcLvl == 10) {
@@ -145,10 +146,8 @@ export class PcShop extends Phaser.Scene {
                 return
             }
 
+            this.buyServerTitle.setText(`Price: ${calculateServerPrice(this.userData.serverPcLvl)} $\nLevel: ${this.userData.serverPcLvl}`)
             this.changeServerPicture(this.scene.get(CST.SCENES.MAIN))
-
-            this.buyServerTitle.setText("Price: " + calculateServerPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
-
 
         }).on("pointerup", () => {
             buyServerBtn.setScale(0.9)
@@ -177,6 +176,15 @@ export class PcShop extends Phaser.Scene {
             exitBtn.setScale(1)
         })
 
+        //debug
+        drawDebugBounds(this, exitBtn)
+        drawDebugBounds(this, this.cam)
+        drawDebugBounds(this, buyMainBtn)
+        drawDebugBounds(this, buyMiningBtn)
+        drawDebugBounds(this, buyServerBtn)
+        drawDebugBounds(this, this.buyMainTitle)
+        drawDebugBounds(this, this.buyMiningTitle)
+        drawDebugBounds(this, this.buyServerTitle)
     }
 
     changeMiningPicture(scene) {
@@ -188,7 +196,10 @@ export class PcShop extends Phaser.Scene {
         }
     }
     changeServerPicture(scene) {
-        if (scene.userData.serverPcLvl != 0) { scene.serverPc.setVisible(true)}
+        if (scene.userData.serverPcLvl != 0) { 
+            scene.serverPc.setVisible(true)
+            scene.serverValueTitle.setVisible(true)
+        }
         if(scene.userData.serverPcLvl >= 10 && scene.userData.serverPcLvl < 20) {
             scene.serverPc.setTexture("mining_lvl2")
         } else if(scene.userData.serverPcLvl >= 20) {

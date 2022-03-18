@@ -3,6 +3,7 @@ const COLOR_LIGHT = 0xA574EB;
 const COLOR_DARK = 0xB92AD4;
 
 import { CST } from "../CST.js";
+import { drawDebugBounds } from "../debug.js";
 
 export class TechShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -28,13 +29,27 @@ export class TechShop extends Phaser.Scene {
         this.cam.setMask(camShape.createGeometryMask())
 
        
-        
+        let buyMainTech = this.add.sprite(TechShop.WIDTH / 2, TechShop.HEIGHT * 0.3, "buy_tech_btn").setInteractive()
 
         
 
         
 
         
+
+
+        buyMainTech.on("pointerdown", () => {
+            buyMainTech.setScale(0.95)
+            
+        }).on("pointerup", () => {
+            buyMainTech.setScale(1)
+        }).on("pointerout", () => {
+            buyMainTech.setScale(1)
+        })
+
+
+
+
 
         let exitBtn = this.add.sprite(TechShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
         /* rounded exit btn
@@ -61,6 +76,11 @@ export class TechShop extends Phaser.Scene {
         }).on("pointerout", () => {
             exitBtn.setScale(1)
         })
+
+        //debug
+        drawDebugBounds(this, this.cam)
+        drawDebugBounds(this, exitBtn)
+        drawDebugBounds(this, buyMainTech)
 
     }
     update() {

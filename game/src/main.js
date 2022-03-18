@@ -12,10 +12,22 @@ const gameFieldWidth = document.documentElement.clientWidth
 const gameFieldHeight = document.documentElement.clientHeight
 console.log(gameFieldWidth, gameFieldHeight);
 
+
+var targetWidth = 960 // идеальная ширина приложения (под неё рисуем спрайты и т.п.)
+var targetHeight = 640 // 640х960 - это iPhone 4, под меньшее разрешение наверно нет смысла делать
+
+var deviceRatio = window.innerWidth / window.innerHeight
+var newRatio = (targetHeight / targetWidth) * deviceRatio
+            
+var newWidth = targetWidth * newRatio
+var newHeight = targetHeight
+
+console.log(newWidth, newHeight)
+
 const config = {
     type: Phaser.AUTO,
-    width: gameFieldWidth * 0.94,
-    height: gameFieldHeight * 0.94,
+    width: newWidth,
+    height: newHeight,
     autoCenter: true,
     backgroundColor: "#444444",
     parent: "main_div",
