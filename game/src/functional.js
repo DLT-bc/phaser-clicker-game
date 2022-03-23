@@ -1,13 +1,13 @@
 //earn
-export function calculateClickingMultiplier(mainPcLvl, mainPcTechnologiesAmount) {
-    return Math.floor(Math.pow(mainPcLvl, 1.5) + 1 * (mainPcLvl - 1) + mainPcTechnologiesAmount * 1.2)
+export function calculateClickingMultiplier(mainPcLvl, techLvl) {
+    return Math.floor(Math.pow(mainPcLvl, 1.5) + 1 * (mainPcLvl - 1) + techLvl * 1.2)
 }
 
-export function calculateAutoMining(miningPcLvl, miningPcTechsLvl) {
-    return Math.max(Math.floor(Math.pow(miningPcLvl, 1.6) + 6 * (miningPcLvl - 1) + miningPcTechsLvl * 1.2), 0)
+export function calculateAutoMining(miningPcLvl, techLvl) {
+    return Math.max(Math.floor(Math.pow(miningPcLvl, 1.6) + 6 * (miningPcLvl - 1) + techLvl * 1.2), 0)
 }
 
-export function calculateServerStorage(serverPcLvl, serverPcTechsLvl) {
+export function calculateServerStorage(serverPcLvl, techLvl) {
     return 120 * Math.pow(1.2, serverPcLvl - 1) 
 }
 

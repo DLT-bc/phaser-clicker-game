@@ -107,7 +107,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             top: "44%",
             left: "35%",
             //border: "dashed red",
-            fontSize: '18px',
+            fontSize: '14px',
             fontFamily: 'Montserrat'
         }
 

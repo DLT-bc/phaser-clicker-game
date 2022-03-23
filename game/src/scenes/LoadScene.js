@@ -92,9 +92,7 @@ export class LoadScene extends Phaser.Scene {
             mainPcLvl: 1,
             miningPcLvl: 0,
             serverPcLvl: 0,
-            mainPcTechsLvl: 0,
-            miningPcTechsLvl: 0,
-            serverPcTechsLvl: 0
+            techLvl: 0
         }
         
         this.registry.set("userdata", data)

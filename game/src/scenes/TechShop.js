@@ -3,6 +3,8 @@ const COLOR_LIGHT = 0xA574EB;
 const COLOR_DARK = 0xB92AD4;
 
 import { CST } from "../CST.js";
+import { techInfo } from "../info.js";
+import { newRatio } from "../main.js";
 import { drawDebugBounds } from "../debug.js";
 
 export class TechShop extends Phaser.Scene {
@@ -13,6 +15,9 @@ export class TechShop extends Phaser.Scene {
 
     init() {
         this.userData = this.registry.get("userdata")
+
+        TechShop.WIDTH = this.game.renderer.width * 0.7
+        TechShop.HEIGHT = this.game.renderer.height * 0.7
     }
 
     create (data) {
@@ -29,7 +34,29 @@ export class TechShop extends Phaser.Scene {
         this.cam.setMask(camShape.createGeometryMask())
 
        
-        let buyMainTech = this.add.sprite(TechShop.WIDTH / 2, TechShop.HEIGHT * 0.3, "buy_tech_btn").setInteractive()
+        let buyMainTech = this.add.sprite(TechShop.WIDTH * 0.3, TechShop.HEIGHT * 0.8, "buy_tech_btn").setInteractive().setScale(newRatio * 0.7 * 1)
+
+        this.techImg = this.add.image(TechShop.WIDTH * 0.8, TechShop.HEIGHT * 0.5, "tech_" + this.userData.techLvl)
+
+        this.techNameInfo = this.add.text(TechShop.WIDTH * 0.3, TechShop.HEIGHT * 0.1,
+            `${techInfo[this.userData.techLvl].name}\n${techInfo[this.userData.techLvl].info}`, 
+            {
+               fontSize: '25px',
+               fontFamily: 'Montserrat',
+               color: '#ffffff',
+               align: 'left',
+               lineSpacing: 3
+        }).setOrigin(0.5, 0.5)
+
+        this.techPrice = this.add.text(TechShop.WIDTH * 0.2, TechShop.HEIGHT * 0.4,
+            `Price: ${techInfo[this.userData.techLvl].price}`, 
+            {
+               fontSize: '25px',
+               fontFamily: 'Montserrat',
+               color: '#ffffff',
+               align: 'left',
+               lineSpacing: 3
+        }).setOrigin(0.5, 0.5)
 
         
 
@@ -39,12 +66,22 @@ export class TechShop extends Phaser.Scene {
 
 
         buyMainTech.on("pointerdown", () => {
-            buyMainTech.setScale(0.95)
+            buyMainTech.setScale(newRatio * 0.7 * 0.95)
+            if(this.userData.cryptoCurrency >= techInfo[this.userData.techLvl].price) {
+                this.userData.cryptoCurrency -= techInfo[this.userData.techLvl].price
+                this.userData.techLvl++
+                this.updateInfo()
+            } else {
+                alert("Not Enough Money")
+            }
+
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} Ξ/s`)
+
             
         }).on("pointerup", () => {
-            buyMainTech.setScale(1)
+            buyMainTech.setScale(newRatio * 0.7 * 1)
         }).on("pointerout", () => {
-            buyMainTech.setScale(1)
+            buyMainTech.setScale(newRatio * 0.7 * 1)
         })
 
 
@@ -81,14 +118,17 @@ export class TechShop extends Phaser.Scene {
         drawDebugBounds(this, this.cam)
         drawDebugBounds(this, exitBtn)
         drawDebugBounds(this, buyMainTech)
+        drawDebugBounds(this, this.techImg)
 
     }
+
+    updateInfo() {
+        this.techImg.setTexture("tech_" + this.userData.techLvl)
+        this.techNameInfo.setText(`${techInfo[this.userData.techLvl].name}\n${techInfo[this.userData.techLvl].info}`)
+        this.techPrice.setText(`Price: ${techInfo[this.userData.techLvl].price}`)
+    }
+
     update() {
     }
 
 }
-
-
-
-TechShop.WIDTH = document.documentElement.clientWidth * 0.7
-TechShop.HEIGHT = document.documentElement.clientHeight * 0.7

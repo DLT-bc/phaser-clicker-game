@@ -1,6 +1,8 @@
 import { CST } from "../CST.js";
-import { drawDebugBounds } from "../debug.js";
+import { newWidth, newHeight, newRatio } from "../main.js"
 import { calculateClickingMultiplier, calculateAutoMining, calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
+
+import { drawDebugBounds } from "../debug.js";
 
 export class PcShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -14,6 +16,9 @@ export class PcShop extends Phaser.Scene {
         console.log(this.playerTexts);
         this.counter = this.registry.get("texts_counter")
         console.log(this.counter);
+
+        PcShop.WIDTH = this.game.renderer.width * 0.7
+        PcShop.HEIGHT = this.game.renderer.height * 0.7
     }
 
     create (data) {
@@ -33,10 +38,12 @@ export class PcShop extends Phaser.Scene {
         this.miningPcPrice = calculateMiningPrice(this.userData.miningPcLvl)
         this.serverPcPrice = calculateServerPrice(this.userData.serverPcLvl)
 
+        
+
         //add sprites
-        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.01 , PcShop.HEIGHT * 0.4, "buy_main_btn").setScale(0.9).setInteractive()
-        buyMainBtn.x += buyMainBtn.width / 2
-        this.buyMainTitle = this.add.text(buyMainBtn.x + buyMainBtn.width / 1.5, buyMainBtn.y - 5,
+        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.3 , PcShop.HEIGHT * 0.2, "buy_main_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyMainBtn.x += buyMainBtn.width / 2
+        this.buyMainTitle = this.add.text(PcShop.WIDTH * 0.6, buyMainBtn.y - 5,
             `Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`, 
             {
                 fontSize: '25px',
@@ -44,11 +51,11 @@ export class PcShop extends Phaser.Scene {
                 color: '#ffffff',
                 align: 'left',
                 lineSpacing: 3
-        }).setOrigin(0.5, 0.5)
-    
-        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMainBtn.y + buyMainBtn.height * 1.1, "buy_mining_btn").setScale(0.9).setInteractive()
-        buyMiningBtn.x += buyMiningBtn.width / 2
-        this.buyMiningTitle = this.add.text(buyMiningBtn.x + buyMiningBtn.width / 1.5, buyMiningBtn.y - 5,
+        }).setOrigin(0, 0.5)
+        
+        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.5, "buy_mining_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyMiningBtn.x += buyMiningBtn.width / 2
+        this.buyMiningTitle = this.add.text(PcShop.WIDTH * 0.6, buyMiningBtn.y - 5,
             `Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`, 
             {
                fontSize: '25px',
@@ -56,11 +63,11 @@ export class PcShop extends Phaser.Scene {
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-        }).setOrigin(0.5, 0.5)
+        }).setOrigin(0, 0.5)
 
-        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMiningBtn.y + buyMiningBtn.height * 1.1, "buy_server_btn").setScale(0.9).setInteractive()
-        buyServerBtn.x += buyServerBtn.width / 2
-        this.buyServerTitle = this.add.text(buyServerBtn.x + buyServerBtn.width / 1.5, buyServerBtn.y - 5,
+        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.8, "buy_server_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyServerBtn.x += buyServerBtn.width / 2
+        this.buyServerTitle = this.add.text(PcShop.WIDTH * 0.6, buyServerBtn.y - 5,
             `Price: ${calculateServerPrice(this.userData.serverPcLvl)} $\nLevel: ${this.userData.serverPcLvl}`, 
             {
                fontSize: '25px',
@@ -68,10 +75,10 @@ export class PcShop extends Phaser.Scene {
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-        }).setOrigin(0.5, 0.5)
+        }).setOrigin(0, 0.5)
 
 
-        let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
+        let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio)
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -90,7 +97,7 @@ export class PcShop extends Phaser.Scene {
 
 
         buyMainBtn.on("pointerdown", () => {
-            buyMainBtn.setScale(0.85)
+            buyMainBtn.setScale(newRatio * 0.85)
             let pcPrice = calculateMainPrice(this.userData.mainPcLvl)
             if(this.userData.moneyCurrency >= pcPrice){
                 this.userData.moneyCurrency -= pcPrice
@@ -104,13 +111,13 @@ export class PcShop extends Phaser.Scene {
             this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} Ξ/click`)
 
         }).on("pointerup", () => {
-            buyMainBtn.setScale(0.9)
+            buyMainBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
-            buyMainBtn.setScale(0.9)
+            buyMainBtn.setScale(newRatio * 0.9)
         })
 
         buyMiningBtn.on("pointerdown", () => {
-            buyMiningBtn.setScale(0.85)
+            buyMiningBtn.setScale(newRatio * 0.85)
             let pcPrice = calculateMiningPrice(this.userData.miningPcLvl)
             if(this.userData.moneyCurrency >= pcPrice) {
                 this.userData.moneyCurrency -= pcPrice
@@ -130,13 +137,13 @@ export class PcShop extends Phaser.Scene {
                 this.registry.set("texts_counter", this.counter)
             }
         }).on("pointerup", () => {
-            buyMiningBtn.setScale(0.9)
+            buyMiningBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
-            buyMiningBtn.setScale(0.9)
+            buyMiningBtn.setScale(newRatio * 0.9)
         })
 
         buyServerBtn.on("pointerdown", () => {
-            buyServerBtn.setScale(0.85)
+            buyServerBtn.setScale(newRatio * 0.85)
             let pcPrice = calculateServerPrice(this.userData.serverPcLvl)
             if(this.userData.moneyCurrency >= pcPrice) {
                 this.userData.moneyCurrency -= pcPrice
@@ -150,10 +157,10 @@ export class PcShop extends Phaser.Scene {
             this.changeServerPicture(this.scene.get(CST.SCENES.MAIN))
 
         }).on("pointerup", () => {
-            buyServerBtn.setScale(0.9)
+            buyServerBtn.setScale(newRatio * 0.9)
     
         }).on("pointerout", () => {
-            buyServerBtn.setScale(0.9)
+            buyServerBtn.setScale(newRatio * 0.9)
         })
 
 
@@ -163,26 +170,28 @@ export class PcShop extends Phaser.Scene {
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(0.95)
+            exitBtn.setScale(newRatio * 0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
             this.scene.sleep()
             this.scene.setVisible(false)
 
             this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
         }).on("pointerup", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 1)
             
         }).on("pointerout", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 1)
         })
+        
+
 
         //debug
         drawDebugBounds(this, exitBtn)
         drawDebugBounds(this, this.cam)
-        drawDebugBounds(this, buyMainBtn)
+        drawDebugBounds(this, buyMainBtn, buyMainBtn.getCenter().x, buyMainBtn.getCenter().y)
         drawDebugBounds(this, buyMiningBtn)
         drawDebugBounds(this, buyServerBtn)
-        drawDebugBounds(this, this.buyMainTitle)
+        drawDebugBounds(this, this.buyMainTitle, this.buyMainTitle.getCenter().x, this.buyMainTitle.getCenter().y)
         drawDebugBounds(this, this.buyMiningTitle)
         drawDebugBounds(this, this.buyServerTitle)
     }
@@ -211,5 +220,3 @@ export class PcShop extends Phaser.Scene {
     }
 }
 
-PcShop.WIDTH = document.documentElement.clientWidth * 0.7
-PcShop.HEIGHT = document.documentElement.clientHeight * 0.7

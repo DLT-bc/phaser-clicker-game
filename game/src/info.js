@@ -1,7 +1,7 @@
 export const textInfo = [
     {
         id: 1,
-        text: "Blockchain is a decentralized database Blockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized database"
+        text: "Start Blockchain is a decentralized database Blockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized databaseBlockchain is a decentralized database End"
     },
     {
         id: 2,
@@ -16,8 +16,14 @@ export const textInfo = [
 export const techInfo = [
     {
         id: 1,
-        techName: "",
-        info: "",
+        name: "Proof Of Work Consensus",
+        info: "InfoInfoInfo",
         price: 100
+    },
+    {
+        id: 2,
+        name: "Anti-fork Protocol",
+        info: "Info2Info2Info2",
+        price: 300
     }
 ]
