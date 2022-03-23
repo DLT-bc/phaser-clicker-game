@@ -75,7 +75,7 @@ export class TechShop extends Phaser.Scene {
                 alert("Not Enough Money")
             }
 
-            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} Ξ/s`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
 
             
         }).on("pointerup", () => {

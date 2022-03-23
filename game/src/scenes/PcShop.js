@@ -108,7 +108,7 @@ export class PcShop extends Phaser.Scene {
             }
 
             this.buyMainTitle.setText(`Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.mainPcTechsLvl)} Ξ/click`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`)
 
         }).on("pointerup", () => {
             buyMainBtn.setScale(newRatio * 0.9)
@@ -128,9 +128,8 @@ export class PcShop extends Phaser.Scene {
             }
 
             this.buyMiningTitle.setText(`Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.miningPcTechsLvl)} Ξ/s`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
             this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
-
             if(this.userData.miningPcLvl == 10) {
                 this.playerTexts.set(`Theme ${this.counter}`, 2)
                 this.counter++
