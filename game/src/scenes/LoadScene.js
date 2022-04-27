@@ -1,8 +1,8 @@
 
-
 import { CST } from "../CST.js";
 import { MenuScene } from "./MenuScene.js";
 
+const bdURL = "https://dlt-database.herokuapp.com/api/"
 
 export class LoadScene extends Phaser.Scene {
 
@@ -94,6 +94,26 @@ export class LoadScene extends Phaser.Scene {
             serverPcLvl: 0,
             techLvl: 0
         }
+
+        fetch(bdURL + "auth/me", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            
+        }).then((response) => {
+            console.log(response.status)     //=> number 100–599
+            console.log(response.statusText) //=> String
+          
+            if (response.ok) {
+                console.log(JSON.parse(response.statusText));
+            }
+            else {
+                alert(response.statusText)
+            }
+          }, (error) => {
+            console.log(error.message) //=> String
+          })
         
         this.registry.set("userdata", data)
 

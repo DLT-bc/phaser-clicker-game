@@ -18,18 +18,23 @@
                     <div class="nav">
                     <img src="img/Logo.svg" alt="DLT" class="logo">
                     <div class="menu">
-                        <a href="#">Contact us</a>
+                        <a href="#" class="lang" key="contact">Contact us</a>
                     </div>
                     </div>
                     <div class="nav_buttons">
-                        <button class="lang">
-                            <img src="img/language_rus_flag.png" alt="Ru/En language" class="lang-position">
-                        </button>
+                        <div class="lang_btn">
+                            <button id="ru" class="language">
+                                <img src="img/language_rus_flag.png" alt="Ru/En language" class="lang-position">
+                            </button>
+                            <button id="en" class="language">
+                                <img src="img/lang_eng.png" alt="Ru/En language" class="lang-position">
+                            </button>
+                        </div>
                         <form action="/auth.html">
-                        <button class="log_btn">
-                            Log in
-                        </button>
-                        </form>
+                        <div class="log_btn">
+                            <a href="/auth.html" class="lan lang" key="login">Log in</a> 
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -42,12 +47,11 @@
                         <div class="block-title-img">
                         <h1 class="titl1">Block<span>Chain</span></h1>
                         <div class="ober_money">
-                            <img src="/img/Money.png" alt="money" class="money">
+                            <img src="img/Money.png" alt="money" class="money">
                         </div>
-                        
+
                         </div>
-                        <p class="description-title">This is a revolution in blockchain learning sphere. Some text...... 
-                        </p>
+                        <p class="description-title lang" key="description">This is a revolution in blockchain learning sphere. We are a team. We made a cool game. Here will be information about our game.</p>
                     </div>
                     <div class="ober">
                     <img src="img/blockhain.png" alt="Blockchain" class="basic_img"></div>
@@ -57,10 +61,10 @@
         
          <section class="offer">
              <div class="container">
-                <h2 class="title">Do you  want to make a lot of money?</h2>
+                <h2 class="title lang" key="text">Do you  want to make a lot of money?</h2>
                 <div class="arr_btn_container">
                     <div class="arr_btn"> 
-                        <button class="button">Start play</button>
+                        <button class="button lang" key="button" id="btn-start">Start play</button>
                         <img src="img/pic.png" alt="стрелка" class="arrow"> 
                     </div>  
                 </div>  
@@ -69,9 +73,15 @@
     
         <footer>
             <div class="container">
-                <p class="footer-description">© DLT - 2021</p>
+                <p class="footer-description">© DLT - 2022</p>
             </div>
         </footer>  
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
 </body>
+    <script src="./js/index.js"></script>
+    <script src="./js/language.js"></script>
+
 </html>

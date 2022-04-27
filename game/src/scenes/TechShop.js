@@ -6,6 +6,7 @@ import { CST } from "../CST.js";
 import { techInfo } from "../info.js";
 import { newRatio } from "../main.js";
 import { drawDebugBounds } from "../debug.js";
+import { calculateAutoMining } from "../functional.js";
 
 export class TechShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -77,6 +78,10 @@ export class TechShop extends Phaser.Scene {
 
             this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
 
+            if(this.userData.techLvl >= 11) {
+                buyMainTech.setInteractive(false)
+                buyMainTech.setTint(0x808080)
+            }
             
         }).on("pointerup", () => {
             buyMainTech.setScale(newRatio * 0.7 * 1)

@@ -70,10 +70,10 @@ export class MainScene extends Phaser.Scene {
         
 
         
-        let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
-        get1000.on('pointerdown', () => {
-            this.userData.cryptoCurrency += 100000
-        })
+        //let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
+       // get1000.on('pointerdown', () => {
+        //    this.userData.cryptoCurrency += 100000
+        //})
 
         //create sprites
 
@@ -236,7 +236,8 @@ export class MainScene extends Phaser.Scene {
             bcLibraryBtn.setScale(this.newRatio * 1)
         })
 
-        //draw debug borders
+        //draw debug borders 
+        /*
         drawDebugBounds(this, mainPc)
         drawDebugBounds(this, this.serverPc)
         drawDebugBounds(this, this.miningPc)
@@ -253,7 +254,7 @@ export class MainScene extends Phaser.Scene {
         drawDebugBounds(this, this.exchangeRateTitle)
         drawDebugBounds(this, this.serverValueTitle)
         
-        
+        */
 
         
         

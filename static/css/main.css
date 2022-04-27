@@ -21,7 +21,7 @@ html {
 
 .container {  
     width: 100%;
-    max-width: 1024px;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
     padding: 10px;
@@ -87,40 +87,63 @@ header .nav {
     align-items: center;
 }
 
-.nav_buttons .lang {
-    background-color: #B92AD4;
-    border: 2px solid #1F0B3F;
-    border-radius: 20px;
-    color: #FFFFFF;
-    width: 70px;
-    height: 56px;
-    font-size: 22px;
-    font-weight: bold;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    transition: all 0.5s ease;
-}
-
 .nav_buttons .lang:hover {
     background: #9B24B2;
     cursor: pointer;
-}
+} 
 
-.nav_buttons .lang .lang-position {
-    padding: 15px;
+.lang-position {
+    max-width: 35px;
+    max-height: 35px;
+    
+    padding-top: 4px ;
 }
 
 .nav_buttons .log_btn {
+    color: white;
     background-color: #B92AD4;
     border-radius: 20px;
     border: 2px solid #1F0B3F;
-    width: 140px;
+    min-width: 140px;
+    height: 56px;
+    margin-left: 31px;
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    padding: 13px 0;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s ease;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;  
+}
+
+.language {
+    background-color: #B92AD4;
+    border: none;
+    cursor: pointer;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.nav_buttons .lang_btn {
+    display: flex;
+    align-items: center;
+      
+    justify-content: space-between;
+
+    background-color: #B92AD4;
+    border-radius: 20px;
+    border: 2px solid #1F0B3F;
+    max-width: 140px;
     height: 56px;
     margin-left: 31px;
     color: #FFFFFF;
     font-weight: bold;
     font-size: 22px;
     text-align: center;
-    padding: 13px 0;
+    padding: 10px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     transition: all 0.5s ease;
 }
@@ -131,7 +154,26 @@ header .nav {
         background-color: #B92AD4;
         border-radius: 20px;
         border: 2px solid #1F0B3F;
-        width: 90px;
+        min-width: 70px;
+        height: 56px;
+        margin-left: 15px;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-size: 22px;
+        text-align: center;
+        padding: 13px 0;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        transition: all 0.5s ease;
+    }
+}
+
+/* Стили для телефонов */
+@media (max-width: 767px){
+    .nav_buttons .lang_btn {
+        background-color: #B92AD4;
+        border-radius: 20px;
+        border: 2px solid #1F0B3F;
+        max-width: 90px;
         height: 56px;
         margin-left: 15px;
         color: #FFFFFF;
@@ -155,13 +197,15 @@ header .nav {
     text-align: center;
     font-weight: bold;    
 }
-
+a.lan.lang {
+    padding: 5px;
+}
 /* Стили для телефонов */
 @media (max-width: 767px){
 .nav_buttons .log_btn a {
     color: #FFFFFF;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 17px;
     text-align: center;
     font-weight: bold;    
  }
@@ -183,7 +227,6 @@ header .nav {
      display: none;
     }
     }
-    
 .description {
     padding: 84px 0;
 }
@@ -203,7 +246,7 @@ header .nav {
 }
 
 .ober{
-    width: 50%;
+    width: 55%;
 }
 
 /* Стили для телефонов */
@@ -256,6 +299,7 @@ header .nav {
 .block .block-title-img {
     display: flex;
     align-items:center;
+ 
 }
 
 .titl1{
