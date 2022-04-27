@@ -67,8 +67,7 @@ export class MainScene extends Phaser.Scene {
 
 
         
-        
-
+    
         
         //let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
        // get1000.on('pointerdown', () => {
