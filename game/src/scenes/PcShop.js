@@ -1,5 +1,8 @@
 import { CST } from "../CST.js";
-import { calculatePcPrice } from "../functional.js";
+import { newWidth, newHeight, newRatio } from "../main.js"
+import { calculateClickingMultiplier, calculateAutoMining, calculateMainPrice, calculateMiningPrice, calculateServerPrice } from "../functional.js";
+
+import { drawDebugBounds } from "../debug.js";
 
 export class PcShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -9,6 +12,13 @@ export class PcShop extends Phaser.Scene {
 
     init() {
         this.userData = this.registry.get("userdata")
+        this.playerTexts = this.registry.get("player_texts")
+        console.log(this.playerTexts);
+        this.counter = this.registry.get("texts_counter")
+        console.log(this.counter);
+
+        PcShop.WIDTH = this.game.renderer.width * 0.7
+        PcShop.HEIGHT = this.game.renderer.height * 0.7
     }
 
     create (data) {
@@ -24,54 +34,51 @@ export class PcShop extends Phaser.Scene {
         camShape.fillStyle(0xff00ff, 1)
         this.cam.setMask(camShape.createGeometryMask())
 
-        this.mainPcPrice = calculatePcPrice(this.userData.mainPcLvl)
-        this.miningPcPrice = calculatePcPrice(this.userData.miningPcLvl)
-        this.serverPcPrice = calculatePcPrice(this.userData.serverPcLvl)
+        this.mainPcPrice = calculateMainPrice(this.userData.mainPcLvl)
+        this.miningPcPrice = calculateMiningPrice(this.userData.miningPcLvl)
+        this.serverPcPrice = calculateServerPrice(this.userData.serverPcLvl)
+
+        
 
         //add sprites
-        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.01 , PcShop.HEIGHT * 0.4, "buy_main_btn").setScale(0.9).setInteractive()
-        buyMainBtn.x += buyMainBtn.width / 2
-        this.buyMainTitle = this.add.text(buyMainBtn.x + buyMainBtn.width / 1.5, buyMainBtn.y - 5,
-                "Price: " + calculatePcPrice(this.userData.mainPcLvl) + "\n"
-                + "Level: " + this.userData.mainPcLvl, {
+        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.3 , PcShop.HEIGHT * 0.2, "buy_main_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyMainBtn.x += buyMainBtn.width / 2
+        this.buyMainTitle = this.add.text(PcShop.WIDTH * 0.6, buyMainBtn.y - 5,
+            `Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`, 
+            {
                 fontSize: '25px',
                 fontFamily: 'Montserrat',
                 color: '#ffffff',
                 align: 'left',
                 lineSpacing: 3
-            }).setOrigin(0.5, 0.5)
-    
-
-        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMainBtn.y + buyMainBtn.height * 1.1, "buy_mining_btn").setScale(0.9).setInteractive()
-        buyMiningBtn.x += buyMiningBtn.width / 2
-        this.buyMiningTitle = this.add.text(buyMiningBtn.x + buyMiningBtn.width / 1.5, buyMiningBtn.y - 5,
-            "Price: " + calculatePcPrice(this.userData.miningPcLvl) + "\n"
-             + "Level: " + this.userData.miningPcLvl, {
+        }).setOrigin(0, 0.5)
+        
+        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.5, "buy_mining_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyMiningBtn.x += buyMiningBtn.width / 2
+        this.buyMiningTitle = this.add.text(PcShop.WIDTH * 0.6, buyMiningBtn.y - 5,
+            `Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`, 
+            {
                fontSize: '25px',
                fontFamily: 'Montserrat',
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-           }).setOrigin(0.5, 0.5)
+        }).setOrigin(0, 0.5)
 
-        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.01, buyMiningBtn.y + buyMiningBtn.height * 1.1, "buy_server_btn").setScale(0.9).setInteractive()
-        buyServerBtn.x += buyServerBtn.width / 2
-        this.buyServerTitle = this.add.text(buyServerBtn.x + buyServerBtn.width / 1.5, buyServerBtn.y - 5,
-            "Price: " + calculatePcPrice(this.userData.serverPcLvl) + "\n"
-             + "Level: " + this.userData.serverPcLvl, {
+        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.8, "buy_server_btn").setScale(newRatio * 0.9).setInteractive()
+        //buyServerBtn.x += buyServerBtn.width / 2
+        this.buyServerTitle = this.add.text(PcShop.WIDTH * 0.6, buyServerBtn.y - 5,
+            `Price: ${calculateServerPrice(this.userData.serverPcLvl)} $\nLevel: ${this.userData.serverPcLvl}`, 
+            {
                fontSize: '25px',
                fontFamily: 'Montserrat',
                color: '#ffffff',
                align: 'left',
                lineSpacing: 3
-           }).setOrigin(0.5, 0.5)
+        }).setOrigin(0, 0.5)
 
 
-        let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()
-
-        
-        
-        
+        let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio)
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -82,48 +89,77 @@ export class PcShop extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
+
+        
+
+        
+        
+
+
         buyMainBtn.on("pointerdown", () => {
-            buyMainBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.mainPcLvl)){
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.mainPcLvl)
+            buyMainBtn.setScale(newRatio * 0.85)
+            let pcPrice = calculateMainPrice(this.userData.mainPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice){
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.mainPcLvl++
             } else {
                 alert("not enough money")
+                return
             }
 
+            this.buyMainTitle.setText(`Price: ${calculateMainPrice(this.userData.mainPcLvl)} $\nLevel: ${this.userData.mainPcLvl}`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`)
+
         }).on("pointerup", () => {
-            buyMainBtn.setScale(0.9)
+            buyMainBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
-            buyMainBtn.setScale(0.9)
+            buyMainBtn.setScale(newRatio * 0.9)
         })
 
         buyMiningBtn.on("pointerdown", () => {
-            buyMiningBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.miningPcLvl)) {
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.miningPcLvl)
+            buyMiningBtn.setScale(newRatio * 0.85)
+            let pcPrice = calculateMiningPrice(this.userData.miningPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice) {
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.miningPcLvl++
             } else {
                 alert("not enough money")
+                return
+            }
+
+            this.buyMiningTitle.setText(`Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`)
+            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
+            this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
+            if(this.userData.miningPcLvl == 10) {
+                this.playerTexts.set(`Theme ${this.counter}`, 2)
+                this.counter++
+                this.registry.set("texts_counter", this.counter)
             }
         }).on("pointerup", () => {
-            buyMiningBtn.setScale(0.9)
+            buyMiningBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
-            buyMiningBtn.setScale(0.9)
+            buyMiningBtn.setScale(newRatio * 0.9)
         })
 
         buyServerBtn.on("pointerdown", () => {
-            buyServerBtn.setScale(0.85)
-            if(this.userData.moneyCurrency >= calculatePcPrice(this.userData.serverPcLvl)) {
-                this.userData.moneyCurrency -= calculatePcPrice(this.userData.serverPcLvl)
+            buyServerBtn.setScale(newRatio * 0.85)
+            let pcPrice = calculateServerPrice(this.userData.serverPcLvl)
+            if(this.userData.moneyCurrency >= pcPrice) {
+                this.userData.moneyCurrency -= pcPrice
                 this.userData.serverPcLvl++
             } else {
                 alert("not enough money")
+                return
             }
+
+            this.buyServerTitle.setText(`Price: ${calculateServerPrice(this.userData.serverPcLvl)} $\nLevel: ${this.userData.serverPcLvl}`)
+            this.changeServerPicture(this.scene.get(CST.SCENES.MAIN))
+
         }).on("pointerup", () => {
-            buyServerBtn.setScale(0.9)
+            buyServerBtn.setScale(newRatio * 0.9)
     
         }).on("pointerout", () => {
-            buyServerBtn.setScale(0.9)
+            buyServerBtn.setScale(newRatio * 0.9)
         })
 
 
@@ -133,26 +169,53 @@ export class PcShop extends Phaser.Scene {
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(0.95)
+            exitBtn.setScale(newRatio * 0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
-            
-        }).on("pointerup", () => {
-            exitBtn.setScale(1)
             this.scene.sleep()
             this.scene.setVisible(false)
-        }).on("pointerover", () => {
+
+            this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
+        }).on("pointerup", () => {
+            exitBtn.setScale(newRatio * 1)
             
         }).on("pointerout", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 1)
         })
+        
 
+
+        //debug
+        drawDebugBounds(this, exitBtn)
+        drawDebugBounds(this, this.cam)
+        drawDebugBounds(this, buyMainBtn, buyMainBtn.getCenter().x, buyMainBtn.getCenter().y)
+        drawDebugBounds(this, buyMiningBtn)
+        drawDebugBounds(this, buyServerBtn)
+        drawDebugBounds(this, this.buyMainTitle, this.buyMainTitle.getCenter().x, this.buyMainTitle.getCenter().y)
+        drawDebugBounds(this, this.buyMiningTitle)
+        drawDebugBounds(this, this.buyServerTitle)
     }
+
+    changeMiningPicture(scene) {
+        if (scene.userData.miningPcLvl != 0) { scene.miningPc.setVisible(true)}
+        if(scene.userData.miningPcLvl >= 10 && scene.userData.miningPcLvl < 20) {
+            scene.miningPc.setTexture("mining_lvl2")
+        } else if(scene.userData.miningPcLvl >= 20) {
+            scene.miningPc.setTexture("mining_lvl3")
+        }
+    }
+    changeServerPicture(scene) {
+        if (scene.userData.serverPcLvl != 0) { 
+            scene.serverPc.setVisible(true)
+            scene.serverValueTitle.setVisible(true)
+        }
+        if(scene.userData.serverPcLvl >= 10 && scene.userData.serverPcLvl < 20) {
+            scene.serverPc.setTexture("mining_lvl2")
+        } else if(scene.userData.serverPcLvl >= 20) {
+            scene.serverPc.setTexture("mining_lvl3")
+        }   
+    }
+
     update() {
-        this.buyMainTitle.setText("Price: " + calculatePcPrice(this.userData.mainPcLvl) + "\n" + "Level: " + this.userData.mainPcLvl)
-        this.buyMiningTitle.setText("Price: " + calculatePcPrice(this.userData.miningPcLvl) + "\n" + "Level: " + this.userData.miningPcLvl)
-        this.buyServerTitle.setText("Price: " + calculatePcPrice(this.userData.serverPcLvl) + "\n" + "Level: " + this.userData.serverPcLvl)
     }
 }
 
-PcShop.WIDTH = document.documentElement.clientWidth * 0.7
-PcShop.HEIGHT = document.documentElement.clientHeight * 0.7

@@ -1,9 +1,9 @@
 {   
     "userId": "123",
-    "array": [{
+    "texts": [{
             "id": "1",
             "orderNum": "1",
-            "text": "blablabalbalbalbla"
+            "text": "blablabalbalbalbla_start"
         },
         {
             "id": "2",
@@ -12,8 +12,8 @@
         },
         {
             "id": "3",
-            "orderNum": "2",
-            "text": "blablabalbalbalbla2"
+            "orderNum": "not_unlocked",
+            "text": "blablabalbalbalbla3"
         }
     ]
 }
