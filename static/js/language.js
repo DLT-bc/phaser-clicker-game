@@ -1,8 +1,8 @@
 let arrLang = {
     'en': {
       'contact': 'Contact us',
-      'login': 'Log in',
-      'description': 'This is a revolution in blockchain learning sphere. We are a team. We made a cool game. Here will be information about our game.',
+      'login': 'Authorization',
+      'description': 'Blockchain is cutting edge technology. It opens up endless possibilities for the whole world, especially when it comes to the use of cryptocurrencies. Our game is designed to educate players on the concepts behind this state of the art technology.',
       'text': 'Do you want to make a lot of money?',
       'button': 'Start play',
       'password': 'Password',
@@ -10,10 +10,10 @@ let arrLang = {
     },
   
     'ru': {
-      'contact': 'Контакты',
-      'login': 'Регистрация',
-      'description': 'Это революция в сфере обучения блокчейну. Мы команда. Мы сделали крутую игру. Здесь будет информация о нашей игре.',
-      'text': 'Хочешь зарабоать много денег?',
+      'contact': 'Связаться с нами',
+      'login': 'Авторизация',
+      'description': 'Блокчейн является передовой технологией. Он открывает перед всем миром бесконечные возможности, особенно, когда дело доходит до использования криптовалют. Наша игра создана с целью обучения игроков концепциям этой современной технологии.',
+      'text': 'Хочешь заработать много денег?',
       'button': 'Начинай играть',
       'password': 'Пароль',
       'tet': 'блокчейн это круто'

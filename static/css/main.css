@@ -21,7 +21,7 @@ html {
 
 .container {  
     width: 100%;
-    max-width: 1200px;
+    max-width: 1024px;
     margin: 0 auto;
     position: relative;
     padding: 10px;
@@ -94,8 +94,7 @@ header .nav {
 
 .lang-position {
     max-width: 35px;
-    max-height: 35px;
-    
+    max-height: 35px;    
     padding-top: 4px ;
 }
 
@@ -106,37 +105,36 @@ header .nav {
     border: 2px solid #1F0B3F;
     min-width: 140px;
     height: 56px;
-    margin-left: 31px;
+    margin-left: 30px;
     font-weight: bold;
     font-size: 22px;
     text-align: center;
     padding: 13px 0;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    transition: all 0.5s ease;
-     display: inline-flex;
-     align-items: center;
-     justify-content: center;
-     cursor: pointer;  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; 
 }
 
 .language {
     background-color: #B92AD4;
     border: none;
-    cursor: pointer;
     padding-left: 4px;
     padding-right: 4px;
 }
 
+.language:hover {
+    background: #b91896;
+    cursor: pointer;
+}
+
 .nav_buttons .lang_btn {
     display: flex;
-    align-items: center;
-      
+    align-items: center;     
     justify-content: space-between;
-
     background-color: #B92AD4;
     border-radius: 20px;
     border: 2px solid #1F0B3F;
-    max-width: 140px;
+    max-width: 150px;
     height: 56px;
     margin-left: 31px;
     color: #FFFFFF;
@@ -190,16 +188,16 @@ header .nav {
     cursor: pointer;
 }
 
-.nav_buttons .log_btn a {
-    color: #FFFFFF;
-    text-decoration: none;
+.nav_buttons .log_btn {
     font-size: 22px;
     text-align: center;
-    font-weight: bold;    
+    font-weight: bold;
+    transition: all 0.5s ease;
+    padding: 6px;
+    color: #FFFFFF;
+    text-decoration: none;
 }
-a.lan.lang {
-    padding: 5px;
-}
+
 /* Стили для телефонов */
 @media (max-width: 767px){
 .nav_buttons .log_btn a {
@@ -212,8 +210,7 @@ a.lan.lang {
 }
 
 .menu a {
-    color: #FFFFFF;
-    text-decoration: none;
+    color: #FFFFFF;  
     font-weight: bold;
     font-size: 25px;
     line-height: 30px;
@@ -227,8 +224,9 @@ a.lan.lang {
      display: none;
     }
     }
+
 .description {
-    padding: 84px 0;
+    padding: 60px 0;
 }
 
 .description .blockchain {
@@ -246,7 +244,7 @@ a.lan.lang {
 }
 
 .ober{
-    width: 55%;
+    width: 50%;
 }
 
 /* Стили для телефонов */
@@ -258,7 +256,7 @@ a.lan.lang {
 
 .description .basic_img{
     width: 100%;
-    max-width: 669px;
+    max-width: 660px;
     height: auto;
     object-fit: cover;
 } 
