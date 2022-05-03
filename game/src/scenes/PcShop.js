@@ -17,8 +17,8 @@ export class PcShop extends Phaser.Scene {
         this.counter = this.registry.get("texts_counter")
         console.log(this.counter);
 
-        PcShop.WIDTH = this.game.renderer.width * 0.7
-        PcShop.HEIGHT = this.game.renderer.height * 0.7
+        PcShop.WIDTH = this.game.renderer.width * 0.8
+        PcShop.HEIGHT = this.game.renderer.height * 0.8
     }
 
     create (data) {

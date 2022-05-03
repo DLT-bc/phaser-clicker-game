@@ -69,30 +69,26 @@ export class MainScene extends Phaser.Scene {
         
         
 
-        
-        //let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
-       // get1000.on('pointerdown', () => {
-        //    this.userData.cryptoCurrency += 100000
-        //})
 
         //create sprites
 
         
-        
         let mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2.5, "main_pc").setInteractive().setScale(this.newRatio * 1)
 
         let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.9, "pc_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * 1.25, sceneHeight * 0.9, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
+        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * pcShopBtn.scale * 1.15, sceneHeight * 0.9, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
+        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * techShopBtn.scale * 1.15, sceneHeight * 0.9, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
+
+        console.log(pcShopBtn.width, techShopBtn.width);
 
         let exchangeBtn = this.add.sprite(sceneWidth * 0.7, sceneHeight * 0.9, "exchange_btn").setInteractive().setScale(this.newRatio * 1)
-        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
-        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
+        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.26 , "exchange_100").setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
+        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y + exchangeBtn.height * exchangeBtn.scaleY * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
         
         //create images (z order)
-        this.miningPc = this.add.image(mainPc.x - mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "mining_lvl1").setVisible(false).setScale(this.newRatio * 1)
+        this.miningPc = this.add.image(mainPc.x - mainPc.width * mainPc.scaleX * 1.2, mainPc.y, "mining_lvl1").setVisible(false).setScale(this.newRatio * 1)
         if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true) }
-        this.serverPc = this.add.image(mainPc.x + mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "server_lvl1").setVisible(false).setInteractive().setScale(this.newRatio * 1)
+        this.serverPc = this.add.image(mainPc.x + mainPc.width * mainPc.scaleX * 1.2, mainPc.y , "server_lvl1").setVisible(false).setInteractive().setScale(this.newRatio * 1)
         if (this.userData.serverPcLvl != 0) { this.serverPc.setVisible(true) }
         
 
@@ -108,10 +104,10 @@ export class MainScene extends Phaser.Scene {
 
         this.moneyCounter = this.add.text(sceneWidth * 0.2, sceneHeight * 0.06, `${this.userData.moneyCurrency} $`, textStyle).setScale(this.newRatio * 1)
         this.cryptoCounter = this.add.text(sceneWidth * 0.6, sceneHeight * 0.06, `${this.userData.cryptoCurrency} Ξ`, textStyle).setScale(this.newRatio * 1)
-        this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height * 1.3, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`, textStyle).setScale(newRatio * 1)
-        this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height * 1.3, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`, textStyle).setScale(this.newRatio * 1)
+        this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height * this.cryptoCounter.scaleY * 1.3, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`, textStyle).setScale(newRatio * 1)
+        this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height * this.cryptoPerSecondTitle.scaleY * 1.3, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`, textStyle).setScale(this.newRatio * 1)
         this.serverValueTitle = this.add.text(this.serverPc.x, this.serverPc.y - this.serverPc.height, `${timePassed} Ξ`, textStyle).setVisible(false).setScale(this.newRatio * 1)
-        this.exchangeRateTitle = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * 0.7, `Exchange Rate: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
+        this.exchangeRateTitle = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.7, `Exchange Rate: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
 
         
         //create audio, disable pauseonblur

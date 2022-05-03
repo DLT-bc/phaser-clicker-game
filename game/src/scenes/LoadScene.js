@@ -87,8 +87,8 @@ export class LoadScene extends Phaser.Scene {
     }
     create() {
         let data = { // loads from database
-            moneyCurrency: 0, 
-            cryptoCurrency: 0,  
+            moneyCurrency: 10000000000000, 
+            cryptoCurrency: 10000000000000,  
             mainPcLvl: 1,
             miningPcLvl: 0,
             serverPcLvl: 0,
@@ -109,7 +109,7 @@ export class LoadScene extends Phaser.Scene {
                 console.log(JSON.parse(response.statusText));
             }
             else {
-                alert(response.statusText)
+                //alert(response.statusText)
             }
           }, (error) => {
             console.log(error.message) //=> String

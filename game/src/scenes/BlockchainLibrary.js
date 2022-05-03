@@ -106,7 +106,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             height: "80%",
             top: "44%",
             left: "35%",
-            //border: "dashed red",
+            border: "dashed red",
             fontSize: '14px',
             fontFamily: 'Montserrat'
         }
@@ -115,7 +115,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
             0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
 
-        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, "")
+        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
         text.setText(this.textInfo[0].text);
         console.log(text);
 
@@ -148,6 +148,10 @@ export class BlockchainLibrary extends Phaser.Scene {
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
+
+            const deleteText = document.querySelectorAll("p")
+            console.log(deleteText);
+            deleteText.forEach(el => el.remove());
         }).on("pointerup", () => {
             exitBtn.setScale(1)
             this.scene.sleep()

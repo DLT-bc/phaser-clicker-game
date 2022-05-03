@@ -94,7 +94,7 @@ export const techInfo = [
     },
     {
         id: 7,
-        name: "Virtual Machine",
+        name: "Blockchain Virtual Machine",
         info: "The most common way to implement smart-contracts",
         price: 300,
         image: "tech_7"
@@ -119,5 +119,12 @@ export const techInfo = [
         info: "A standard for Non-Fungible Token Tokens",
         price: 300,
         image: "tech_10"
+    },
+    {
+        id: 11,
+        name: "There is no technologies to buy",
+        info: "",
+        price: "",
+        image: ""
     }
 ]
