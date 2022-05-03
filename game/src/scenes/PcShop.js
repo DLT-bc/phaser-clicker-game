@@ -166,13 +166,14 @@ export class PcShop extends Phaser.Scene {
         
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(newRatio * 0.95)
+        }).on("pointerup", () => {
+            exitBtn.setScale(newRatio * 1)
+
             mainMenuBtns.forEach((el) => {el.setInteractive()})
             this.scene.sleep()
             this.scene.setVisible(false)
 
             this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
-        }).on("pointerup", () => {
-            exitBtn.setScale(newRatio * 1)
             
         }).on("pointerout", () => {
             exitBtn.setScale(newRatio * 1)

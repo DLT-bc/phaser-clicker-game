@@ -132,7 +132,12 @@ export class TechShop extends Phaser.Scene {
 
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(0.95)
+            exitBtn.setScale(newRatio * 0.7 * 0.95)
+            
+
+        }).on("pointerup", () => {
+            exitBtn.setScale(newRatio * 0.7 * 1)
+            
             mainMenuBtns.forEach((el) => {el.setInteractive()})
             this.scene.sleep()
             this.scene.setVisible(false)
@@ -142,12 +147,9 @@ export class TechShop extends Phaser.Scene {
             const deleteText = document.querySelectorAll("p")
             console.log(deleteText);
             deleteText.forEach(el => el.remove());
-
-        }).on("pointerup", () => {
-            exitBtn.setScale(1)
             
         }).on("pointerout", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 0.7 * 1)
         })
 
         //debug
