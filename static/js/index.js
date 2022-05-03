@@ -16,7 +16,7 @@ document.querySelector("#btn-start").addEventListener('click', async () => {
             window.location.replace('game')
         }
         else {
-            alert(response.statusText)
+            location.href="auth.html"
         }
       }, (error) => {
         console.log(error.message) //=> String
