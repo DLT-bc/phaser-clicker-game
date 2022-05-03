@@ -75,49 +75,49 @@ export const techInfo = [
         id: 4,
         name: "Mining Pool",
         info: "Allows miners to gather in teams, which increases the chances of mining a block.",
-        price: 300,
+        price: 1000,
         image: "tech_4"
     },
     {
         id: 5,
         name: "Dynamic block hash",
         info: "Special hash parameters, which depends on the network load at the moment.",
-        price: 300,
+        price: 2000,
         image: "tech_5"
     },
     {
         id: 6,
         name: "Useful nonce calculation Protocol",
         info: "Allows to direct computing power to more useful areas.",
-        price: 300,
+        price: 2500,
         image: "tech_6"
     },
     {
         id: 7,
         name: "Blockchain Virtual Machine",
         info: "The most common way to implement smart-contracts",
-        price: 300,
+        price: 4000,
         image: "tech_7"
     },
     {
         id: 8,
         name: "Smart-contract technology",
         info: `A "smart contract" is simply a program that runs on the blockchain. It's a collection of code and data that resides at a specific address on the blockchain.`,
-        price: 300,
+        price: 5200,
         image: "tech_8"
     },
     {
         id: 9,
         name: "Token Standart",
         info: "A standard for Fungible Tokens",
-        price: 300,
+        price: 6000,
         image: "tech_9"
     },
     {
         id: 10,
         name: "Non-Fungible Token Standart",
         info: "A standard for Non-Fungible Token Tokens",
-        price: 300,
+        price: 6500,
         image: "tech_10"
     },
     {

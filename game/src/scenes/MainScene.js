@@ -51,12 +51,6 @@ export class MainScene extends Phaser.Scene {
         this.exchangeRate = calculateExchangeRate(1) // 1 - default
         this.exchangeMode = 1 // 1 - 100% default
         
-        let counterObj = { num: 2 }
-        this.counter = counterObj.num
-        this.playerTexts = new Map()
-        this.playerTexts.set("Theme 1", 1)
-        this.registry.set("player_texts", this.playerTexts)
-        this.registry.set("texts_counter", this.counter)
 
         //create additional scenes   
 

@@ -1,5 +1,6 @@
 import { drawDebugBounds } from "../debug.js";
 import { textInfo } from "../info.js";
+import { newRatio } from "../main.js";
 
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
@@ -13,14 +14,12 @@ export class BlockchainLibrary extends Phaser.Scene {
 
     init () {
         this.userData = this.registry.get("userdata")
-        this.counter = this.registry.get("texts_counter")
-        this.playerTexts = this.registry.get("player_texts")
         this.textInfo = textInfo
     }
 
     create (data) {
         this.add.image(0, 0, "pc_shop_bg").setOrigin(0, 0)
-        this.add.image(0, 0, "logo").setScale(0.04).setOrigin(0, 0)
+        this.add.image(0, 0, "logo").setScale(newRatio * 0.03).setOrigin(0, 0)
 
         this.cam = this.cameras.main.setViewport(0, 0, this.game.renderer.width, this.game.renderer.height);
 
@@ -33,7 +32,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         //this.cam.setMask(camShape.createGeometryMask())
 
        
-        let exitBtn = this.add.sprite(this.game.renderer.width + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()    
+        let exitBtn = this.add.sprite(this.game.renderer.width * 0.99, this.game.renderer.height * 0.01, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio * 0.7)
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -107,13 +106,13 @@ export class BlockchainLibrary extends Phaser.Scene {
             top: "44%",
             left: "35%",
             border: "dashed red",
-            fontSize: '14px',
-            fontFamily: 'Montserrat'
+            fontSize: '70%',
+            fontFamily: 'Montserrat',
+            сolor: "#ffffff"
         }
 
         let textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
-            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
-            0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
+            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1).setOrigin(0, 0.5)
 
         let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
         text.setText(this.textInfo[0].text);
@@ -146,20 +145,20 @@ export class BlockchainLibrary extends Phaser.Scene {
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(0.95)
+            exitBtn.setScale(newRatio * 0.7 * 0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
 
             const deleteText = document.querySelectorAll("p")
             console.log(deleteText);
             deleteText.forEach(el => el.remove());
         }).on("pointerup", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 0.7)
             this.scene.sleep()
             this.scene.setVisible(false)
         }).on("pointerover", () => {
             
         }).on("pointerout", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 0.7)
         })
 
         //debug

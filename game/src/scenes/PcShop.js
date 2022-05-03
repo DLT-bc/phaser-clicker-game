@@ -130,11 +130,7 @@ export class PcShop extends Phaser.Scene {
             this.buyMiningTitle.setText(`Price: ${calculateMiningPrice(this.userData.miningPcLvl)} $\nLevel: ${this.userData.miningPcLvl}`)
             this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
             this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
-            if(this.userData.miningPcLvl == 10) {
-                this.playerTexts.set(`Theme ${this.counter}`, 2)
-                this.counter++
-                this.registry.set("texts_counter", this.counter)
-            }
+
         }).on("pointerup", () => {
             buyMiningBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
@@ -170,13 +166,14 @@ export class PcShop extends Phaser.Scene {
         
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(newRatio * 0.95)
+        }).on("pointerup", () => {
+            exitBtn.setScale(newRatio * 1)
+
             mainMenuBtns.forEach((el) => {el.setInteractive()})
             this.scene.sleep()
             this.scene.setVisible(false)
 
             this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
-        }).on("pointerup", () => {
-            exitBtn.setScale(newRatio * 1)
             
         }).on("pointerout", () => {
             exitBtn.setScale(newRatio * 1)
