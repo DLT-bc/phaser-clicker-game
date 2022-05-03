@@ -6,7 +6,7 @@ import { CST } from "../CST.js";
 import { techInfo } from "../info.js";
 import { newRatio } from "../main.js";
 import { drawDebugBounds } from "../debug.js";
-import { calculateAutoMining } from "../functional.js";
+import { calculateAutoMining, calculateClickingMultiplier} from "../functional.js";
 
 export class TechShop extends Phaser.Scene {
     constructor (handle, parent) {
@@ -41,7 +41,7 @@ export class TechShop extends Phaser.Scene {
             buyMainTech.setTint(0x808080)
         }
 
-        this.techImg = this.add.image(TechShop.WIDTH * 0.8, TechShop.HEIGHT * 0.5, "tech_" + this.userData.techLvl)
+        this.techImg = this.add.image(TechShop.WIDTH * 0.8, TechShop.HEIGHT * 0.5, `tech_${this.userData.techLvl + 1}`).setScale(newRatio * 0.5)
 
         let textNameStyle = {
             width: "50%",
@@ -68,7 +68,7 @@ export class TechShop extends Phaser.Scene {
         }
         this.text = this.add.dom(TechShop.WIDTH * 0.3, TechShop.HEIGHT * 0.3).createElement('p', textStyle)
 
-        this.techPrice = this.add.text(buyMainTech.x + buyMainTech.width * buyMainTech.scaleX, buyMainTech.y,
+        this.techPrice = this.add.text(buyMainTech.x + buyMainTech.width * buyMainTech.scaleX * 1.1, buyMainTech.y,
             "Price: " + techInfo[this.userData.techLvl].price+ "Ξ",  {
                 fontSize: '25px',
                 fontFamily: 'Montserrat',
@@ -101,6 +101,7 @@ export class TechShop extends Phaser.Scene {
                 console.log(this.userData.techLvl);
                 buyMainTech.disableInteractive()
                 buyMainTech.setTint(0x808080)
+                this.techImg.setVisible(false)
             }
 
             this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
@@ -160,7 +161,7 @@ export class TechShop extends Phaser.Scene {
 
     updateInfo() {
 
-        this.techImg.setTexture("tech_" + this.userData.techLvl)
+        this.techImg.setTexture("tech_" + (this.userData.techLvl + 1))
         this.techName.setText(techInfo[this.userData.techLvl].name)
         this.text.setText(techInfo[this.userData.techLvl].info);
         this.techPrice.setText("Price: " + techInfo[this.userData.techLvl].price + "Ξ")
