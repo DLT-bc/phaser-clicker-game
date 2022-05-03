@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {font-family: 'Montserrat', sans-serif;}
+
+    #myBtn {
+    background-color: #9C27B0;
+    color: white;
+    padding: 12px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    width: 180px;
+    }
+
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        /*padding-top: 50% 50%; /*  Location of the box*/ 
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+
+    .modal-content {
+        position: relative;
+        background-color:#CFC5DE;
+        
+        margin:0 auto;
+        /*padding: 0;*/
+        border: 5px solid #B92AD4;
+        width: 25%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.5s;
+        animation-name: animatetop;
+        animation-duration: 0.5s
+    }
+
+
+    @-webkit-keyframes animatetop {
+        from {top:50%; opacity:0} 
+        to {top:0; opacity:1}
+    }
+
+
+    @keyframes animatetop {
+        from {top:50%; opacity:0}
+        to {top:0; opacity:1}
+    }
+
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #CFC5DE;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #502C88;
+        color: white;
+    }
+
+    .modal-body {padding: 2px 16px;}
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #502C88;
+        color: white;
+    }
+        </style>
+
+    <title>Clicker Game</title>
+
+</head>
+<body>
+
+  <button id="myBtn">Открыть окно</button>
+
+    <div id="myModal" class="modal">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Шапка</h2>
+        </div>
+        <div class="modal-body">
+          <p>Какой-то текст</p>
+      
+        </div>
+        <div class="modal-footer">
+          <h3>Футер</h3>
+        </div>
+      </div>
+
+    </div>
+</body>
+
+<script>
+    var modal = document.getElementById('myModal');
+
+
+    var btn = document.getElementById("myBtn");
+
+
+    var span = document.getElementsByClassName("close")[0];
+
+
+    btn.onclick = function() {
+        modal.style.display = "flex";
+    }
+
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</html>
