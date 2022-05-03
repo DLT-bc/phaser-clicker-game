@@ -22,8 +22,7 @@ export class LoadScene extends Phaser.Scene {
 
         //change resolution
         //load image, spritesheet, sound
-
-        this.load.image("background", "./dist/assets/PC_background.png")
+        
         this.load.image("background_layer", "./dist/assets/layer_background.jpg")
         this.load.image("pc_shop_bg", "./dist/assets/pc_shop_bg.png")
         
@@ -35,8 +34,14 @@ export class LoadScene extends Phaser.Scene {
         //main
         this.load.image("logo", "./dist/assets/dlt_logo.png")
         this.load.image("main_pc", "./dist/assets/main_pc.png")
-        this.load.image("mining_lvl1", "./dist/assets/mining_lvl1.png")
-        this.load.image("mining_lvl2", "./dist/assets/mining_lvl2.png")
+
+        this.load.image("mining_1", "./dist/assets/mining_1.png")
+        this.load.image("mining_2", "./dist/assets/mining_2.png")
+        this.load.image("mining_3", "./dist/assets/mining_3.png")
+
+        this.load.image("server_1", "./dist/assets/server_1.png")
+        this.load.image("server_2", "./dist/assets/server_2.png")
+        this.load.image("server_3", "./dist/assets/server_3.png")
 
         //main buttons
         this.load.image("pc_shop_btn", "./dist/assets/pc_shop_btn.png")

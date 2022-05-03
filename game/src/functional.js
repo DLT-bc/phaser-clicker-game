@@ -1,10 +1,10 @@
 //earn
 export function calculateClickingMultiplier(mainPcLvl, techLvl) {
-    return Math.floor(Math.pow(mainPcLvl, 1.7) + 1 * (mainPcLvl - 1) * techLvl)
+    return Math.floor(Math.pow(mainPcLvl, 1.2) + (mainPcLvl - 1) * techLvl * 2)
 }
 
 export function calculateAutoMining(miningPcLvl, techLvl) {
-    return Math.max(Math.floor(Math.pow(miningPcLvl, 1.6) + 6 * (miningPcLvl - 1) * techLvl * 0.75), 0)
+    return Math.max(Math.floor(Math.pow(miningPcLvl, 1.16) + (miningPcLvl - 1) * techLvl), 0)
 }
 
 export function calculateServerStorage(serverPcLvl, techLvl) {
@@ -13,13 +13,13 @@ export function calculateServerStorage(serverPcLvl, techLvl) {
 
 //price
 export function calculateMainPrice(pcLvl) {
-    return Math.floor(100 * Math.pow(1.2, pcLvl - 1))
+    return Math.floor(100 * Math.pow(1.14, pcLvl - 1))
 }
 export function calculateMiningPrice(pcLvl) {
-    return Math.floor(150 * Math.pow(1.25, pcLvl - 1))
+    return Math.floor(150 * Math.pow(1.14, pcLvl - 1))
 }
 export function calculateServerPrice(pcLvl) {
-    return Math.floor(120 * Math.pow(1.26, pcLvl - 1))
+    return Math.floor(120 * Math.pow(1.2, pcLvl - 1))
 }
 
 //exchanger

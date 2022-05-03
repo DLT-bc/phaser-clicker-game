@@ -43,8 +43,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
-        
-        console.log("size: " + this.registry.get("player_texts").size)
+
         
         
         this.scrollablePanel = this.rexUI.add.scrollablePanel({
@@ -83,7 +82,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             }),
 
             footer: this.rexUI.add.label({
-                height: 30,
+                height: 0,
                 orientation: 0,
                 background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_PRIMARY),
             }),
@@ -108,7 +107,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             border: "dashed red",
             fontSize: '70%',
             fontFamily: 'Montserrat',
-            сolor: "#ffffff"
+            color: '#ffffff'
         }
 
         let textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
@@ -132,10 +131,11 @@ export class BlockchainLibrary extends Phaser.Scene {
         .on('child.click', (child, pointer, event) => {
             child.setScale(0.95)
 
-            let id = this.playerTexts.get(child.text)
-            console.log(id, this.textInfo[id - 1].id, this.textInfo[id - 1].text);
-            if (this.textInfo[id - 1].id == id) {
-                text.setText(this.textInfo[id - 1].text);
+            let id = parseInt(child.text.slice(-1)) - 1
+            console.log(id);
+
+            if (this.textInfo[id].id == id) {
+                text.setText(this.textInfo[id].text);
                 console.log(text);
             }
             setTimeout(() => {child.setScale(1)}, 50)
@@ -146,13 +146,14 @@ export class BlockchainLibrary extends Phaser.Scene {
         
         exitBtn.on("pointerdown", () => {
             exitBtn.setScale(newRatio * 0.7 * 0.95)
-            mainMenuBtns.forEach((el) => {el.setInteractive()})
-
-            const deleteText = document.querySelectorAll("p")
-            console.log(deleteText);
-            deleteText.forEach(el => el.remove());
+            
         }).on("pointerup", () => {
             exitBtn.setScale(newRatio * 0.7)
+            
+            mainMenuBtns.forEach((el) => {el.setInteractive()})
+            const deleteText = document.querySelectorAll("p")
+            deleteText.forEach(el => el.remove());
+            
             this.scene.sleep()
             this.scene.setVisible(false)
         }).on("pointerover", () => {
@@ -212,7 +213,7 @@ var createGrid = function (scene) {
         },
     }).addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
 
-    for (let i = 1; i <= scene.registry.get("player_texts").size; i++) {
+    for (let i = 1; i <= scene.userData.techLvl + 1; i++) {
         sizer.add(scene.rexUI.add.label({
             width: scene.game.renderer.width * 0.25, height: 60,
             background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),

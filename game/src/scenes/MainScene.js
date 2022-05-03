@@ -80,9 +80,9 @@ export class MainScene extends Phaser.Scene {
         let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y + exchangeBtn.height * exchangeBtn.scaleY * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
         
         //create images (z order)
-        this.miningPc = this.add.image(mainPc.x - mainPc.width * mainPc.scaleX * 1.2, mainPc.y, "mining_lvl1").setVisible(false).setScale(this.newRatio * 1)
+        this.miningPc = this.add.image(mainPc.x - mainPc.width * mainPc.scaleX * 1.2, mainPc.y + mainPc.height / 2.7 * mainPc.scaleY, "mining_1").setVisible(false).setScale(this.newRatio * 0.3 * 1)
         if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true) }
-        this.serverPc = this.add.image(mainPc.x + mainPc.width * mainPc.scaleX * 1.2, mainPc.y , "server_lvl1").setVisible(false).setInteractive().setScale(this.newRatio * 1)
+        this.serverPc = this.add.image(mainPc.x + mainPc.width * mainPc.scaleX * 1.2, mainPc.y + mainPc.height / 2.7 * mainPc.scaleY, "server_1").setVisible(false).setInteractive().setScale(this.newRatio * 0.4 * 1)
         if (this.userData.serverPcLvl != 0) { this.serverPc.setVisible(true) }
         
 
@@ -151,14 +151,14 @@ export class MainScene extends Phaser.Scene {
         })
         
         this.serverPc.on("pointerdown", () => {
-            this.serverPc.setScale(this.newRatio * 0.95).setTint(0x808080)
+            this.serverPc.setScale(this.newRatio * 0.5 * 0.95).setTint(0x808080)
             this.userData.cryptoCurrency += Math.min(calculateServerStorage(this.userData.serverPcLvl, this.userData.techLvl), Math.floor(timePassed))
             timePassed = 0
             this.serverValueTitle.setText(`${timePassed} Ξ`)
         }).on("pointerout", () => {
-            this.serverPc.setScale(this.newRatio * 1).setTint()
+            this.serverPc.setScale(this.newRatio * 0.4 * 1).setTint()
         }).on("pointerup", () => {
-            this.serverPc.setScale(this.newRatio * 1).setTint()
+            this.serverPc.setScale(this.newRatio * 0.4 * 1).setTint()
         })
         
         //exchange btns
@@ -246,7 +246,7 @@ export class MainScene extends Phaser.Scene {
         
         */
 
-        
+        this.updateText()
         
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)
@@ -312,24 +312,18 @@ export class MainScene extends Phaser.Scene {
         return this.scene.add(key, sceneWindow, false)
     }
     
+    updateText() {
+        this.cryptoCounter.setText(`${Math.floor(this.userData.cryptoCurrency * 100) / 100} Ξ`)
+        this.moneyCounter.setText(`${Math.floor(this.userData.moneyCurrency * 100) / 100} $`)
+        this.exchangeRateTitle.setText(`Exchange Rate: ${this.exchangeRate}`)
+        this.cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
+        this.cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`)
+    }
+
     update() {
 
         this.cryptoCounter.setText(`${Math.floor(this.userData.cryptoCurrency * 100) / 100} Ξ`)
-
         this.moneyCounter.setText(`${Math.floor(this.userData.moneyCurrency * 100) / 100} $`)
-
-
-        //this.mainPcPrice = 100 + (50 * this.userData.mainPcLvl * Math.pow(1.1, this.exp))
-        //this.miningPcPrice = 100 + (50 * this.userData.miningPcLvl * Math.pow(1.1, this.exp))
-        //this.serverPcPrice = 100 + (50 * this.userData.serverPcLvl * Math.pow(1.1, this.exp))
-
-
-        
-        
-        
+    
     }
-
-    
-
-    
 }
