@@ -1,6 +1,6 @@
 import { drawDebugBounds } from "../debug.js";
 import { textInfo } from "../info.js";
-import { newRatio } from "../main.js";
+import { localization } from '../localization.js';
 
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
@@ -14,12 +14,14 @@ export class BlockchainLibrary extends Phaser.Scene {
 
     init () {
         this.userData = this.registry.get("userdata")
+        this.counter = this.registry.get("texts_counter")
+        this.playerTexts = this.registry.get("player_texts")
         this.textInfo = textInfo
     }
 
     create (data) {
         this.add.image(0, 0, "pc_shop_bg").setOrigin(0, 0)
-        this.add.image(0, 0, "logo").setScale(newRatio * 0.03).setOrigin(0, 0)
+        this.add.image(0, 0, "logo").setScale(0.04).setOrigin(0, 0)
 
         this.cam = this.cameras.main.setViewport(0, 0, this.game.renderer.width, this.game.renderer.height);
 
@@ -32,7 +34,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         //this.cam.setMask(camShape.createGeometryMask())
 
        
-        let exitBtn = this.add.sprite(this.game.renderer.width * 0.99, this.game.renderer.height * 0.01, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio * 0.7)
+        let exitBtn = this.add.sprite(this.game.renderer.width + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()    
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -43,7 +45,8 @@ export class BlockchainLibrary extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
-
+        
+        console.log("size: " + this.registry.get("player_texts").size)
         
         
         this.scrollablePanel = this.rexUI.add.scrollablePanel({
@@ -78,11 +81,11 @@ export class BlockchainLibrary extends Phaser.Scene {
             header: this.rexUI.add.label({
                 height: 30,
                 orientation: 0,
-                text: this.add.text(0, 0, 'Blockchain for everyone', { fontSize: '14px', fontFamily: 'Montserrat'}),
+                text: this.add.text(0, 0, localization.getLocale('blockchainLibrary1'), { fontSize: '14px', fontFamily: 'Montserrat'}),
             }),
 
             footer: this.rexUI.add.label({
-                height: 0,
+                height: 30,
                 orientation: 0,
                 background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_PRIMARY),
             }),
@@ -104,16 +107,16 @@ export class BlockchainLibrary extends Phaser.Scene {
             height: "80%",
             top: "44%",
             left: "35%",
-            border: "dashed red",
-            fontSize: '70%',
-            fontFamily: 'Montserrat',
-            color: '#ffffff'
+            //border: "dashed red",
+            fontSize: '14px',
+            fontFamily: 'Montserrat'
         }
 
         let textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
-            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1).setOrigin(0, 0.5)
+            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
+            0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
 
-        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
+        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, "")
         text.setText(this.textInfo[0].text);
         console.log(text);
 
@@ -131,11 +134,10 @@ export class BlockchainLibrary extends Phaser.Scene {
         .on('child.click', (child, pointer, event) => {
             child.setScale(0.95)
 
-            let id = parseInt(child.text.slice(-1)) - 1
-            console.log(id);
-
-            if (this.textInfo[id].id == id) {
-                text.setText(this.textInfo[id].text);
+            let id = this.playerTexts.get(child.text)
+            console.log(id, this.textInfo[id - 1].id, this.textInfo[id - 1].text);
+            if (this.textInfo[id - 1].id == id) {
+                text.setText(this.textInfo[id - 1].text);
                 console.log(text);
             }
             setTimeout(() => {child.setScale(1)}, 50)
@@ -145,21 +147,16 @@ export class BlockchainLibrary extends Phaser.Scene {
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(newRatio * 0.7 * 0.95)
-            
-        }).on("pointerup", () => {
-            exitBtn.setScale(newRatio * 0.7)
-            
+            exitBtn.setScale(0.95)
             mainMenuBtns.forEach((el) => {el.setInteractive()})
-            const deleteText = document.querySelectorAll("p")
-            deleteText.forEach(el => el.remove());
-            
+        }).on("pointerup", () => {
+            exitBtn.setScale(1)
             this.scene.sleep()
             this.scene.setVisible(false)
         }).on("pointerover", () => {
             
         }).on("pointerout", () => {
-            exitBtn.setScale(newRatio * 0.7)
+            exitBtn.setScale(1)
         })
 
         //debug
@@ -175,7 +172,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             width: this.game.renderer.width * 0.25, height: 60,
 
             background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
-            text: this.add.text(0, 0, `Theme ${this.counter}`, {
+            text: this.add.text(0, 0, `${localization.getLocale('blockchainLibrary2')} ${this.counter}`, {
                 fontSize: 18
             }),
 
@@ -189,7 +186,7 @@ export class BlockchainLibrary extends Phaser.Scene {
         }))
         this.scrollablePanel.layout()
 
-        this.playerTexts.set(`Theme ${this.counter}`, themeId)
+        this.playerTexts.set(`${localization.getLocale('blockchainLibrary2')} ${this.counter}`, themeId)
         this.counter++
     }
 
@@ -213,17 +210,17 @@ var createGrid = function (scene) {
         },
     }).addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
 
-    for (let i = 1; i <= scene.userData.techLvl + 1; i++) {
+    for (let i = 1; i <= scene.registry.get("player_texts").size; i++) {
         sizer.add(scene.rexUI.add.label({
             width: scene.game.renderer.width * 0.25, height: 60,
             background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
-            text: scene.add.text(0, 0, `Theme ${i}`, {
+            text: scene.add.text(0, 0, `${localization.getLocale('blockchainLibrary2')} ${i}`, {
                 fontSize: 18
             }),
     
             align: 'center',
             space: {
-                   left: 10,
+                left: 10,
                 right: 10,
                 top: 10,
                 bottom: 10,
@@ -232,7 +229,5 @@ var createGrid = function (scene) {
         
     }
         
-    
-
     return sizer;
 }

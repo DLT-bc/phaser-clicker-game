@@ -1,4 +1,5 @@
 import { CST } from "../CST.js";
+import { localization } from "../localization.js";
 
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
@@ -21,7 +22,6 @@ export class GreetingScene extends Phaser.Scene {
             sceneKey: 'rexUI'
         });      
     }
-    // djfkjfjkgjg
 
     create() {
         console.log("Greeting!");
@@ -29,44 +29,46 @@ export class GreetingScene extends Phaser.Scene {
         let arrow = this.add.image(0, 0, "arrow").setVisible(false)
 
         var scene = this;
-        Alert(scene, 'Hello!', 'This is learning blockchain game.\nThis is a small guide')
+        Alert(scene, localization.getLocale('alert1Title'), localization.getLocale('alert1Body'))
             .then(function () {
                 arrow.setVisible(true)
                 arrow.x = scene.game.renderer.width * 0.35
                 arrow.y = scene.game.renderer.height * 0.4
-                return Alert(scene, 'Clicking', 'This is your Main PC\nClick on it and get crypto currency', scene.game.renderer.width * 0.8);
+                return Alert(scene, localization.getLocale('alert2Title'), localization.getLocale('alert2Body'), scene.game.renderer.width * 0.8);
             })
             .then(function () {
                 arrow.x = scene.game.renderer.width * 0.1
                 arrow.y = scene.game.renderer.height * 0.8
                 arrow.angle = 90
-                return Alert(scene, 'PC Shop', 'This is PC Shop\nHere you can buy and upgrade your PCs', scene.game.renderer.width * 0.2, scene.game.renderer.height * 0.6);
+    
+                return Alert(scene, localization.getLocale('alert3Title'), localization.getLocale('alert3Body'), scene.game.renderer.width * 0.2, scene.game.renderer.height * 0.6);
             })
             .then(function () {
                 arrow.x = scene.game.renderer.width * 0.25
 
-                return Alert(scene, 'Tech Shop', 'This is Tech Shop\nHere you can buy new technologies to upgrade the Blockchain', scene.game.renderer.width * 0.4, scene.game.renderer.height * 0.6);
+                return Alert(scene, localization.getLocale('alert4Title'), localization.getLocale('alert4Body'), scene.game.renderer.width * 0.4, scene.game.renderer.height * 0.6);
             })
             .then(function () {
                 arrow.x = scene.game.renderer.width * 0.38
 
-                return Alert(scene, 'Blockchain Library', 'This page contains unlocked information\nabout Blockchain', scene.game.renderer.width * 0.6, scene.game.renderer.height * 0.6);
+                return Alert(scene, localization.getLocale('alert5Title'), localization.getLocale('alert5Body'), scene.game.renderer.width * 0.6, scene.game.renderer.height * 0.6);
             })
             .then(function () {
                 arrow.x = scene.game.renderer.width * 0.85
                 arrow.y = scene.game.renderer.height * 0.75
                 
-                return Alert(scene, 'Exchanger', 'This is an exchanger\nIt allows you to exchange Crypto currency to Money\nYou can exchange 100% of your Crypto or 50%', scene.game.renderer.width * 0.64, scene.game.renderer.height * 0.55);
+                return Alert(scene, localization.getLocale('alert6Title'), localization.getLocale('alert6Body'), scene.game.renderer.width * 0.64, scene.game.renderer.height * 0.55);
             })
             .then(function () {
                 arrow.setVisible(false)
-                return Alert(scene, 'Currency', 'On the top you can see your currencies: Money and Crypto\nMoney is using for upgrading PCs, Crypto - for buying new technologies', scene.game.renderer.width * 0.5, scene.game.renderer.height * 0.3);
+                return Alert(scene, localization.getLocale('alert7Title'), localization.getLocale('alert7Body'), scene.game.renderer.width * 0.5, scene.game.renderer.height * 0.3);
             })
             .then(function () {
-                return Alert(scene, "That's all", 'Play. Click. Earn. Learn.', scene.game.renderer.width * 0.5, scene.game.renderer.height * 0.5);
+                return Alert(scene, localization.getLocale('alert8Title'), localization.getLocale('alert8Body'), scene.game.renderer.width * 0.5, scene.game.renderer.height * 0.5);
             })
             .then(function () {
                 localStorage.setItem("isFirstStart", 0)
+
                 scene.scene.resume(CST.SCENES.MAIN);
                 scene.scene.stop()
             })
