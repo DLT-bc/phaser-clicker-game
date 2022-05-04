@@ -85,8 +85,8 @@ export class BlockchainLibrary extends Phaser.Scene {
             height: "80%",
             top: "44%",
             left: "35%",
-            border: "dashed red",
-            fontSize: '70%',
+            //border: "dashed red",
+            fontSize: '80%',
             fontFamily: 'Montserrat',
             color: '#ffffff'
         }
@@ -95,7 +95,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1).setOrigin(0, 0.5)
 
         let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
-        text.setText(this.textInfo[0].text);
+        text.setHTML(localization.variant === 'ru' ? this.textInfo[0].textRU : this.textInfo[0].text);
         console.log(text);
 
         this.scrollablePanel.setChildrenInteractive()
@@ -106,7 +106,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             console.log(id);
 
             if (this.textInfo[id].id == id) {
-                text.setText(this.textInfo[id].text);
+                text.setHTML(localization.variant === 'ru' ? this.textInfo[id].textRU : this.textInfo[id].text);
                 console.log(text);
             }
             setTimeout(() => {child.setScale(1)}, 50)
@@ -124,6 +124,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             exitBtn.setScale(newRatio * 0.7)
             
             mainMenuBtns.forEach((el) => {el.setInteractive()})
+            
             const deleteText = document.querySelectorAll("p")
             deleteText.forEach(el => el.remove());
             
@@ -136,10 +137,10 @@ export class BlockchainLibrary extends Phaser.Scene {
         })
 
         //debug
-        drawDebugBounds(this, exitBtn)
-        drawDebugBounds(this, this.cam)
-        drawDebugBounds(this, this.scrollablePanel)
-        drawDebugBounds(this, textPanel)
+        //drawDebugBounds(this, exitBtn)
+        //drawDebugBounds(this, this.cam)
+        //drawDebugBounds(this, this.scrollablePanel)
+        //drawDebugBounds(this, textPanel)
 
     }
 

@@ -58,14 +58,9 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("language_en_btn", "./dist/assets/language_en_btn.png")
 
         // pc shop
-        
-        this.load.image("buy_main_btn", "./dist/assets/buy_main_btn.png")
-        this.load.image("buy_mining_btn", "./dist/assets/buy_mining_btn.png")
-        this.load.image("buy_server_btn", "./dist/assets/buy_server_btn.png")
         this.load.image("exit_btn", "./dist/assets/exit_btn.png")
 
         // tech shop
-        
         this.load.image("buy_tech_btn", "./dist/assets/buy_tech_btn.png")
         this.load.image("tech_1", "./dist/assets/techs/tech_1.png")
 
@@ -97,16 +92,27 @@ export class LoadScene extends Phaser.Scene {
 
     }
     create() {
-        let data = { // loads from database
-            moneyCurrency: 10000000000000, 
-            cryptoCurrency: 10000000000000,  
+        // loads from database
+        let data = { 
+            moneyCurrency: 0, 
+            cryptoCurrency: 0,  
             mainPcLvl: 1,
             miningPcLvl: 0,
             serverPcLvl: 0,
             techLvl: 0
         }
 
-        fetch(bdURL + "auth/me", {
+        let userDataSt = localStorage.getItem('userData')
+        console.log(JSON.parse(userDataSt));
+
+        if (userDataSt == null) {
+            localStorage.setItem('userData', JSON.stringify(data))
+        } else {
+            data = JSON.parse(userDataSt)
+        }
+        
+
+        /*fetch(bdURL + "auth/me", {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
@@ -125,6 +131,7 @@ export class LoadScene extends Phaser.Scene {
           }, (error) => {
             console.log(error.message) //=> String
           })
+          */
         
         this.registry.set("userdata", data)
 

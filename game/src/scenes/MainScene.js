@@ -69,11 +69,11 @@ export class MainScene extends Phaser.Scene {
         
         this.mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2.5, "main_pc").setInteractive().setScale(this.newRatio * 1)
 
-        let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.9, "pc_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * pcShopBtn.scale * 1.15, sceneHeight * 0.9, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * techShopBtn.scale * 1.15, sceneHeight * 0.9, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
+        let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.88, "pc_shop_btn").setInteractive().setScale(this.newRatio * 1)
+        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * pcShopBtn.scale * 1.15, sceneHeight * 0.88, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
+        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * techShopBtn.scale * 1.15, sceneHeight * 0.88, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
 
-        let exchangeBtn = this.add.sprite(sceneWidth * 0.7, sceneHeight * 0.9, "exchange_btn").setInteractive().setScale(this.newRatio * 1)
+        let exchangeBtn = this.add.sprite(sceneWidth * 0.7, sceneHeight * 0.88, "exchange_btn").setInteractive().setScale(this.newRatio * 1)
         let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.26 , "exchange_100").setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
         let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y + exchangeBtn.height * exchangeBtn.scaleY * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
         
@@ -101,7 +101,7 @@ export class MainScene extends Phaser.Scene {
         this.cryptoCounter = this.add.text(sceneWidth * 0.6, sceneHeight * 0.06, `${this.userData.cryptoCurrency} Ξ`, textStyle).setScale(this.newRatio * 1)
         this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height * this.cryptoCounter.scaleY * 1.3, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`, textStyle).setScale(newRatio * 1)
         this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height * this.cryptoPerSecondTitle.scaleY * 1.3, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/${localization.getLocale('mainScene3')}`, textStyle).setScale(this.newRatio * 1)
-        this.serverValueTitle = this.add.text(this.serverPc.x, this.serverPc.y - this.serverPc.height, `${timePassed} Ξ`, textStyle).setVisible(false).setScale(this.newRatio * 1)
+        this.serverValueTitle = this.add.text(this.serverPc.x, this.serverPc.y - this.serverPc.height * 0.65 * this.serverPc.scaleY, `${timePassed} Ξ`, textStyle).setVisible(false).setOrigin(0.5).setScale(this.newRatio * 1)
         this.exchangeRateTitle = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.7, `${localization.getLocale('exchangeRate')}: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
 
 
@@ -155,7 +155,7 @@ export class MainScene extends Phaser.Scene {
         })
         
         this.serverPc.on("pointerdown", () => {
-            this.serverPc.setScale(this.newRatio * 0.5 * 0.95).setTint(0x808080)
+            this.serverPc.setScale(this.newRatio * 0.4 * 0.95).setTint(0x808080)
             this.userData.cryptoCurrency += Math.min(calculateServerStorage(this.userData.serverPcLvl, this.userData.techLvl), Math.floor(timePassed))
             timePassed = 0
             this.serverValueTitle.setText(`${timePassed} Ξ`)
@@ -266,6 +266,7 @@ export class MainScene extends Phaser.Scene {
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)
             localStorage.setItem("savedDate", Date.now())
+            localStorage.setItem('userData', JSON.stringify(this.userData))
         } , 1000)
 
         setInterval(() => {

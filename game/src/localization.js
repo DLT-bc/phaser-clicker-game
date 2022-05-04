@@ -27,16 +27,20 @@ class Localization  {
 
             'mainScene1': 'Пожалуйста, измените ориентацию на горизонтальную.',
             'mainScene2': 'Тема 1',
-            'mainScene3': 'Клик',
+            'mainScene3': 'клик',
 
             'pcShop1': 'Цена',
             'pcShop2': 'Уровень',
             'pcShop3': 'Недостаточно денег',
             'pcShop4': 'Клик',
             'pcShop5': 'Тема',
+            'pcShopB1': 'Купить Главный\nкомпьютер',
+            'pcShopB2': 'Купить Майнер',
+            'pcShopB3': 'Купить Сервер',
 
             'techShop1': 'Цена',
             'techShop2':  "Недостаточно денег",
+            'techShopB': 'Купить',
             
             'siteName': 'Кликер игра'
         },
@@ -73,9 +77,13 @@ class Localization  {
             'pcShop3': 'not enough money',
             'pcShop4': 'click',
             'pcShop5': 'Theme',
+            'pcShopB1': 'Buy Main PC',
+            'pcShopB2': 'Buy Mining PC',
+            'pcShopB3': 'Buy Sever PC',
 
             'techShop1': 'Price',
             'techShop2':  "Not Enough Money",
+            'techShopB': 'Buy', 
 
             'siteName': 'Clicker Game'
         }

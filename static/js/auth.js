@@ -44,12 +44,13 @@ btnReg.addEventListener("click", async () => {
 //sign click------------------------------------------------------------------
 
 btnSign.addEventListener("click", async () => {
-
+    // Sign In
     if (formMode == 0) {
 
         console.log(bdURL);
 
-        await fetch(bdURL + "auth/login", {
+
+        let response = await fetch(bdURL + "auth/login", {
             method: "POST",
             body: JSON.stringify({
                 "email": inputLog.value,
@@ -58,27 +59,31 @@ btnSign.addEventListener("click", async () => {
             headers: {
               "Content-Type": "application/json"
             },
-            
           }).then((response) => {
             console.log(response.status)     //=> number 100–599
             console.log(response.statusText) //=> String
-            console.log(response.body);
-            console.log(response.headers)    //=> Headers
-            console.log(response.url)        //=> String
-          
-            console.log(response.ok);
+
+            let json = response.json();
+            //console.log(json.message);
 
             if (response.ok) {
-                window.location.replace('game')
+                //window.location.replace('game')
+                //console.log("OKЭЙ");
+                return response
             }
             else {
-                alert(response.statusText)
+                //alert(response.statusText)
             }
           }, (error) => {
             console.log(error.message) //=> String
           })
+          
+
+        let result = await resp.json();
+        console.log(result.message);
 
     }
+    // Sign Up
     else if (formMode == 1) {
 
         const inputConfirmPass = document.querySelector("#inp-confirm-pass"),
@@ -100,14 +105,12 @@ btnSign.addEventListener("click", async () => {
           }).then((response) => {
             console.log(response.status)     //=> number 100–599
             console.log(response.statusText) //=> String
-            console.log(response.body);
-            console.log(response.headers)    //=> Headers
-            console.log(response.url)        //=> String
           
             console.log(response.ok);
 
             if (response.ok) {
-                window.location.replace('game')
+                //window.location.replace('game')
+                console.log("OKЭЙ")
             }
             else {
                 response.text().then((text) => { 

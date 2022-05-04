@@ -39,44 +39,30 @@ export class PcShop extends Phaser.Scene {
         this.miningPcPrice = calculateMiningPrice(this.userData.miningPcLvl)
         this.serverPcPrice = calculateServerPrice(this.userData.serverPcLvl)
 
-        
+
+        const textStyle = {
+            fontSize: 200 * newRatio + '%',
+            fontFamily: 'Montserrat',
+            color: '#ffffff',
+            align: 'center',
+            lineSpacing: 3
+        }
 
         //add sprites
-        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.3 , PcShop.HEIGHT * 0.2, "buy_main_btn").setScale(newRatio * 0.9).setInteractive()
-        //buyMainBtn.x += buyMainBtn.width / 2
-        this.buyMainTitle = this.add.text(PcShop.WIDTH * 0.6, buyMainBtn.y - 5,
-            `${localization.getLocale('pcShop1')}: ${calculateMainPrice(this.userData.mainPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.mainPcLvl}`, 
-            {
-                fontSize: '25px',
-                fontFamily: 'Montserrat',
-                color: '#ffffff',
-                align: 'left',
-                lineSpacing: 3
-        }).setOrigin(0, 0.5)
+        let buyMainBtn = this.add.sprite(PcShop.WIDTH * 0.2 , PcShop.HEIGHT * 0.2, "buy_tech_btn").setScale(newRatio * 0.9).setInteractive()
+        let buyMainBtnTitle = this.add.text(buyMainBtn.x, buyMainBtn.y, `${localization.getLocale('pcShopB1')}`, textStyle).setOrigin(0.5)
+        this.buyMainTitle = this.add.text(buyMainBtn.x + buyMainBtn.width * buyMainBtn.scaleX * 0.8, buyMainBtn.y - 5,
+            `${localization.getLocale('pcShop1')}: ${calculateMainPrice(this.userData.mainPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.mainPcLvl}`, textStyle).setOrigin(0, 0.5)
         
-        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.5, "buy_mining_btn").setScale(newRatio * 0.9).setInteractive()
-        //buyMiningBtn.x += buyMiningBtn.width / 2
-        this.buyMiningTitle = this.add.text(PcShop.WIDTH * 0.6, buyMiningBtn.y - 5,
-            `${localization.getLocale('pcShop1')}: ${calculateMiningPrice(this.userData.miningPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.miningPcLvl}`, 
-            {
-               fontSize: '25px',
-               fontFamily: 'Montserrat',
-               color: '#ffffff',
-               align: 'left',
-               lineSpacing: 3
-        }).setOrigin(0, 0.5)
+        let buyMiningBtn = this.add.sprite(PcShop.WIDTH * 0.2, PcShop.HEIGHT * 0.5, "buy_tech_btn").setScale(newRatio * 0.9).setInteractive()
+        let buyMiningBtnTitle = this.add.text(buyMiningBtn.x, buyMiningBtn.y, `${localization.getLocale('pcShopB2')}`, textStyle).setOrigin(0.5)
+        this.buyMiningTitle = this.add.text(buyMiningBtn.x + buyMiningBtn.width * buyMiningBtn.scaleX * 0.8, buyMiningBtn.y - 5,
+            `${localization.getLocale('pcShop1')}: ${calculateMiningPrice(this.userData.miningPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.miningPcLvl}`, textStyle).setOrigin(0, 0.5)
 
-        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.3, PcShop.HEIGHT * 0.8, "buy_server_btn").setScale(newRatio * 0.9).setInteractive()
-        //buyServerBtn.x += buyServerBtn.width / 2
-        this.buyServerTitle = this.add.text(PcShop.WIDTH * 0.6, buyServerBtn.y - 5,
-            `${localization.getLocale('pcShop1')}: ${calculateServerPrice(this.userData.serverPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.serverPcLvl}`, 
-            {
-               fontSize: '25px',
-               fontFamily: 'Montserrat',
-               color: '#ffffff',
-               align: 'left',
-               lineSpacing: 3
-        }).setOrigin(0, 0.5)
+        let buyServerBtn = this.add.sprite(PcShop.WIDTH * 0.2, PcShop.HEIGHT * 0.8, "buy_tech_btn").setScale(newRatio * 0.9).setInteractive()
+        let buyServerBtnTitle = this.add.text(buyServerBtn.x, buyServerBtn.y, `${localization.getLocale('pcShopB3')}`, textStyle).setOrigin(0.5)
+        this.buyServerTitle = this.add.text(buyServerBtn.x + buyServerBtn.width * buyServerBtn.scaleX * 0.8, buyServerBtn.y - 5,
+            `${localization.getLocale('pcShop1')}: ${calculateServerPrice(this.userData.serverPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.serverPcLvl}`, textStyle).setOrigin(0, 0.5)
 
 
         let exitBtn = this.add.sprite(PcShop.WIDTH * 0.98 , PcShop.HEIGHT * 0.03, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio * 0.7)
@@ -175,26 +161,28 @@ export class PcShop extends Phaser.Scene {
             exitBtn.setScale(newRatio * 0.7 * 1)
 
             mainMenuBtns.forEach((el) => {el.setInteractive()})
+
+            const deleteText = document.querySelectorAll("p")
+            deleteText.forEach(el => el.remove());
+
             this.scene.sleep()
             this.scene.setVisible(false)
 
             this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
-            
         }).on("pointerout", () => {
             exitBtn.setScale(newRatio * 0.7 * 1)
         })
         
-
-
-        //debug
-        drawDebugBounds(this, exitBtn)
-        drawDebugBounds(this, this.cam)
-        drawDebugBounds(this, buyMainBtn, buyMainBtn.getCenter().x, buyMainBtn.getCenter().y)
-        drawDebugBounds(this, buyMiningBtn)
-        drawDebugBounds(this, buyServerBtn)
-        drawDebugBounds(this, this.buyMainTitle, this.buyMainTitle.getCenter().x, this.buyMainTitle.getCenter().y)
-        drawDebugBounds(this, this.buyMiningTitle)
-        drawDebugBounds(this, this.buyServerTitle)
+        
+        // debug
+        //drawDebugBounds(this, exitBtn)
+        //drawDebugBounds(this, this.cam)
+        //drawDebugBounds(this, buyMainBtn, buyMainBtn.getCenter().x, buyMainBtn.getCenter().y)
+        //drawDebugBounds(this, buyMiningBtn)
+        //drawDebugBounds(this, buyServerBtn)
+        //drawDebugBounds(this, this.buyMainTitle, this.buyMainTitle.getCenter().x, this.buyMainTitle.getCenter().y)
+        //drawDebugBounds(this, this.buyMiningTitle)
+        //drawDebugBounds(this, this.buyServerTitle)
     }
 
     changeMiningPicture(scene) {

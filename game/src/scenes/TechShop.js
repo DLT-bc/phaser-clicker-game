@@ -35,8 +35,16 @@ export class TechShop extends Phaser.Scene {
         camShape.fillStyle(0xff00ff, 1)
         this.cam.setMask(camShape.createGeometryMask())
 
-       
+        const textBuyStyle = {
+            fontSize: 300 * newRatio + '%',
+            fontFamily: 'Montserrat',
+            color: '#ffffff',
+            align: 'center',
+            lineSpacing: 3
+        }
+
         let buyMainTech = this.add.sprite(TechShop.WIDTH * 0.18, TechShop.HEIGHT * 0.85, "buy_tech_btn").setInteractive().setScale(newRatio * 0.7 * 1)
+        let buyBtnTitle = this.add.text(buyMainTech.x, buyMainTech.y, `${localization.getLocale('techShopB')}`, textBuyStyle).setOrigin(0.5)
         if(this.userData.techLvl >= 10) {
             buyMainTech.disableInteractive()
             buyMainTech.setTint(0x808080)
@@ -44,12 +52,13 @@ export class TechShop extends Phaser.Scene {
 
         this.techImg = this.add.image(TechShop.WIDTH * 0.8, TechShop.HEIGHT * 0.5, `tech_${this.userData.techLvl + 1}`).setScale(newRatio * 0.5)
 
+
         let textNameStyle = {
             width: "50%",
             height: "15%",
             top: "1%",
             left: "6%",
-            border: "dashed red",
+            //border: "dashed red",
             fontSize: "150%",
             color: '#ffffff',
             fontFamily: 'Montserrat'
@@ -62,7 +71,7 @@ export class TechShop extends Phaser.Scene {
             height: "30%",
             top: "15%",
             left: "1%",
-            border: "dashed red",
+            //border: "dashed red",
             //fontSize: "14px",
             color: '#ffffff',
             fontFamily: 'Montserrat'
@@ -79,17 +88,11 @@ export class TechShop extends Phaser.Scene {
         }).setOrigin(0.5, 0.5).setScale(newRatio * 1)
 
         this.updateInfo()
-      
-
-        
-
         
 
 
         buyMainTech.on("pointerdown", () => {
             buyMainTech.setScale(newRatio * 0.7 * 0.95)
-
-           
 
             if(this.userData.cryptoCurrency >= techInfo[this.userData.techLvl].price) {
                 this.userData.cryptoCurrency -= techInfo[this.userData.techLvl].price
@@ -149,11 +152,11 @@ export class TechShop extends Phaser.Scene {
             exitBtn.setScale(newRatio * 0.7 * 1)
         })
 
-        //debug
-        drawDebugBounds(this, this.cam)
+        // debug    
+        //drawDebugBounds(this, this.cam)
         //drawDebugBounds(this, exitBtn)
-        drawDebugBounds(this, buyMainTech)
-        drawDebugBounds(this, this.techImg)
+        //drawDebugBounds(this, buyMainTech)
+        //drawDebugBounds(this, this.techImg)
 
     }
 
