@@ -1,6 +1,8 @@
 import { drawDebugBounds } from "../debug.js";
 import { textInfo } from "../info.js";
+import { newRatio } from "../main.js";
 import { localization } from '../localization.js';
+
 
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
@@ -14,40 +16,16 @@ export class BlockchainLibrary extends Phaser.Scene {
 
     init () {
         this.userData = this.registry.get("userdata")
-        this.counter = this.registry.get("texts_counter")
-        this.playerTexts = this.registry.get("player_texts")
         this.textInfo = textInfo
     }
 
     create (data) {
         this.add.image(0, 0, "pc_shop_bg").setOrigin(0, 0)
-        this.add.image(0, 0, "logo").setScale(0.04).setOrigin(0, 0)
+        this.add.image(0, 0, "logo").setScale(newRatio * 0.03).setOrigin(0, 0)
 
         this.cam = this.cameras.main.setViewport(0, 0, this.game.renderer.width, this.game.renderer.height);
-
-        //setting scene rounded
-        //const camShape = this.make.graphics();
-        //camShape.fillStyle(0xffffff);
-        //camShape.fillStyle(0xffffff, 0.3);
-        //camShape.fillRoundedRect(this.parent.x - BlockchainLibrary.WIDTH / 2, this.parent.y - BlockchainLibrary.HEIGHT / 2, BlockchainLibrary.WIDTH, BlockchainLibrary.HEIGHT, 32);
-        //camShape.fillStyle(0xff00ff, 1)
-        //this.cam.setMask(camShape.createGeometryMask())
-
        
-        let exitBtn = this.add.sprite(this.game.renderer.width + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive()    
-        /* rounded exit btn
-        const exitBtnShape = this.make.graphics();
-        exitBtnShape.fillStyle(0xffffff);
-        exitBtnShape.fillStyle(0xffffff, 0.3);
-        exitBtnShape.fillRoundedRect(exitBtn.x - exitBtn.width, exitBtn.y, exitBtn.width, exitBtn.height, {tl: 0, tr: 32, br: 0, bl: 32});
-        exitBtnShape.fillStyle(0xff00ff, 1)
-        const exitBtnMask = exitBtnShape.createGeometryMask();
-        exitBtn.setMask(exitBtnMask)
-        */
-
-        
-        console.log("size: " + this.registry.get("player_texts").size)
-        
+    
         
         this.scrollablePanel = this.rexUI.add.scrollablePanel({
             x: this.game.renderer.width * 0.3 / 2,
@@ -85,7 +63,7 @@ export class BlockchainLibrary extends Phaser.Scene {
             }),
 
             footer: this.rexUI.add.label({
-                height: 30,
+                height: 0,
                 orientation: 0,
                 background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_PRIMARY),
             }),
@@ -107,37 +85,28 @@ export class BlockchainLibrary extends Phaser.Scene {
             height: "80%",
             top: "44%",
             left: "35%",
-            //border: "dashed red",
-            fontSize: '14px',
-            fontFamily: 'Montserrat'
+            border: "dashed red",
+            fontSize: '70%',
+            fontFamily: 'Montserrat',
+            color: '#ffffff'
         }
 
         let textPanel = this.add.rectangle(this.scrollablePanel.x + this.scrollablePanel.width / 2, this.scrollablePanel.y,
-            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1,
-            0xFFFFFF).setOrigin(0, 0.5).setStrokeStyle(5, 0xFFFFFF)
+            this.game.renderer.width * 0.7,  this.game.renderer.height - this.game.renderer.height * 0.1).setOrigin(0, 0.5)
 
-        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('div', textStyle, "")
+        let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
         text.setText(this.textInfo[0].text);
         console.log(text);
-
-        /* var print = this.add.text(textPanel.x + 6, textPanel.y - textPanel.height / 2 + 6, this.textInfo[0].text, {
-            fontSize: '14px',
-            fontFamily: 'Montserrat',
-            color: '#000000',
-            align: 'left',
-            lineSpacing: 3,
-            maxLines: 100
-        }).setOrigin(0, 0);
-        */
 
         this.scrollablePanel.setChildrenInteractive()
         .on('child.click', (child, pointer, event) => {
             child.setScale(0.95)
 
-            let id = this.playerTexts.get(child.text)
-            console.log(id, this.textInfo[id - 1].id, this.textInfo[id - 1].text);
-            if (this.textInfo[id - 1].id == id) {
-                text.setText(this.textInfo[id - 1].text);
+            let id = parseInt(child.text.slice(-1)) - 1
+            console.log(id);
+
+            if (this.textInfo[id].id == id) {
+                text.setText(this.textInfo[id].text);
                 console.log(text);
             }
             setTimeout(() => {child.setScale(1)}, 50)
@@ -146,17 +115,24 @@ export class BlockchainLibrary extends Phaser.Scene {
         
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
+        let exitBtn = this.add.sprite(this.game.renderer.width * 0.98, this.game.renderer.height * 0.03, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio * 0.7)  
+
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(0.95)
-            mainMenuBtns.forEach((el) => {el.setInteractive()})
+            exitBtn.setScale(newRatio * 0.7 * 0.95)
+            
         }).on("pointerup", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 0.7)
+            
+            mainMenuBtns.forEach((el) => {el.setInteractive()})
+            const deleteText = document.querySelectorAll("p")
+            deleteText.forEach(el => el.remove());
+            
             this.scene.sleep()
             this.scene.setVisible(false)
         }).on("pointerover", () => {
             
         }).on("pointerout", () => {
-            exitBtn.setScale(1)
+            exitBtn.setScale(newRatio * 0.7)
         })
 
         //debug
@@ -210,7 +186,7 @@ var createGrid = function (scene) {
         },
     }).addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
 
-    for (let i = 1; i <= scene.registry.get("player_texts").size; i++) {
+    for (let i = 1; i <= scene.userData.techLvl + 1; i++) {
         sizer.add(scene.rexUI.add.label({
             width: scene.game.renderer.width * 0.25, height: 60,
             background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
@@ -220,7 +196,7 @@ var createGrid = function (scene) {
     
             align: 'center',
             space: {
-                left: 10,
+                   left: 10,
                 right: 10,
                 top: 10,
                 bottom: 10,

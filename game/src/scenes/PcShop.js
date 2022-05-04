@@ -18,8 +18,8 @@ export class PcShop extends Phaser.Scene {
         this.counter = this.registry.get("texts_counter")
         console.log(this.counter);
 
-        PcShop.WIDTH = this.game.renderer.width * 0.7
-        PcShop.HEIGHT = this.game.renderer.height * 0.7
+        PcShop.WIDTH = this.game.renderer.width * 0.8
+        PcShop.HEIGHT = this.game.renderer.height * 0.8
     }
 
     create (data) {
@@ -79,7 +79,7 @@ export class PcShop extends Phaser.Scene {
         }).setOrigin(0, 0.5)
 
 
-        let exitBtn = this.add.sprite(PcShop.WIDTH + 1, 0, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio)
+        let exitBtn = this.add.sprite(PcShop.WIDTH * 0.98 , PcShop.HEIGHT * 0.03, "exit_btn").setOrigin(1, 0).setInteractive().setScale(newRatio * 0.7)
         /* rounded exit btn
         const exitBtnShape = this.make.graphics();
         exitBtnShape.fillStyle(0xffffff);
@@ -90,6 +90,11 @@ export class PcShop extends Phaser.Scene {
         exitBtn.setMask(exitBtnMask)
         */
 
+
+        
+
+        
+        
 
 
         buyMainBtn.on("pointerdown", () => {
@@ -106,7 +111,7 @@ export class PcShop extends Phaser.Scene {
             }
 
             this.buyMainTitle.setText(`${localization.getLocale('pcShop1')}: ${calculateMainPrice(this.userData.mainPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.mainPcLvl}`)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/${localization.getLocale('pcShop4')}`)
+            this.scene.get(CST.SCENES.MAIN).updateText()
 
         }).on("pointerup", () => {
             buyMainBtn.setScale(newRatio * 0.9)
@@ -127,13 +132,9 @@ export class PcShop extends Phaser.Scene {
             }
 
             this.buyMiningTitle.setText(`${localization.getLocale('pcShop1')}: ${calculateMiningPrice(this.userData.miningPcLvl)} $\n${localization.getLocale('pcShop2')}: ${this.userData.miningPcLvl}`)
-            this.scene.get(CST.SCENES.MAIN).cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
+            this.scene.get(CST.SCENES.MAIN).updateText()
             this.changeMiningPicture(this.scene.get(CST.SCENES.MAIN))
-            if(this.userData.miningPcLvl == 10) {
-                this.playerTexts.set(`${localization.getLocale('pcShop5')} ${this.counter}`, 2)
-                this.counter++
-                this.registry.set("texts_counter", this.counter)
-            }
+
         }).on("pointerup", () => {
             buyMiningBtn.setScale(newRatio * 0.9)
         }).on("pointerout", () => {
@@ -169,17 +170,18 @@ export class PcShop extends Phaser.Scene {
         const mainMenuBtns = this.registry.get("mainSceneBtns")
         
         exitBtn.on("pointerdown", () => {
-            exitBtn.setScale(newRatio * 0.95)
+            exitBtn.setScale(newRatio * 0.7 * 0.95)
+        }).on("pointerup", () => {
+            exitBtn.setScale(newRatio * 0.7 * 1)
+
             mainMenuBtns.forEach((el) => {el.setInteractive()})
             this.scene.sleep()
             this.scene.setVisible(false)
 
             this.scene.get(CST.SCENES.MAIN).bg_layer.setVisible(false)
-        }).on("pointerup", () => {
-            exitBtn.setScale(newRatio * 1)
             
         }).on("pointerout", () => {
-            exitBtn.setScale(newRatio * 1)
+            exitBtn.setScale(newRatio * 0.7 * 1)
         })
         
 
@@ -198,9 +200,9 @@ export class PcShop extends Phaser.Scene {
     changeMiningPicture(scene) {
         if (scene.userData.miningPcLvl != 0) { scene.miningPc.setVisible(true)}
         if(scene.userData.miningPcLvl >= 10 && scene.userData.miningPcLvl < 20) {
-            scene.miningPc.setTexture("mining_lvl2")
+            scene.miningPc.setTexture("mining_2")
         } else if(scene.userData.miningPcLvl >= 20) {
-            scene.miningPc.setTexture("mining_lvl3")
+            scene.miningPc.setTexture("mining_3")
         }
     }
     changeServerPicture(scene) {
@@ -209,9 +211,9 @@ export class PcShop extends Phaser.Scene {
             scene.serverValueTitle.setVisible(true)
         }
         if(scene.userData.serverPcLvl >= 10 && scene.userData.serverPcLvl < 20) {
-            scene.serverPc.setTexture("mining_lvl2")
+            scene.serverPc.setTexture("server_2")
         } else if(scene.userData.serverPcLvl >= 20) {
-            scene.serverPc.setTexture("mining_lvl3")
+            scene.serverPc.setTexture("server_3")
         }   
     }
 

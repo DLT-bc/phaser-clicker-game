@@ -1,5 +1,6 @@
 import { CST } from "../CST.js";
 import { localization } from "../localization.js";
+import { newRatio } from "../main.js";
 
 const COLOR_PRIMARY = 0x502C88;
 const COLOR_LIGHT = 0xA574EB;
@@ -32,8 +33,11 @@ export class GreetingScene extends Phaser.Scene {
         Alert(scene, localization.getLocale('alert1Title'), localization.getLocale('alert1Body'))
             .then(function () {
                 arrow.setVisible(true)
-                arrow.x = scene.game.renderer.width * 0.35
-                arrow.y = scene.game.renderer.height * 0.4
+
+                let mainPc = scene.scene.get(CST.SCENES.MAIN).mainPc
+                console.log(mainPc);
+                arrow.x = mainPc.x - mainPc.width / 2 * mainPc.scaleX
+                arrow.y = mainPc.y
                 return Alert(scene, localization.getLocale('alert2Title'), localization.getLocale('alert2Body'), scene.game.renderer.width * 0.8);
             })
             .then(function () {
@@ -81,13 +85,13 @@ export class GreetingScene extends Phaser.Scene {
 
 var CreateAlertDialog = function (scene) {
     var dialog = scene.rexUI.add.dialog({
-        width: 300,
+        width: 100,
         background: scene.rexUI.add.roundRectangle(0, 0, 100, 100, 20, COLOR_PRIMARY),
 
         title: scene.rexUI.add.label({
             background: scene.rexUI.add.roundRectangle(0, 0, 100, 40, 20, COLOR_LIGHT),
             text: scene.add.text(0, 0, '', {
-                fontSize: '20px'
+                fontSize: '170%'
             }),
             space: {
                 left: 15,
@@ -98,7 +102,7 @@ var CreateAlertDialog = function (scene) {
         }),
 
         content: scene.add.text(0, 0, '', {
-            fontSize: '20px'
+            fontSize: '150%'
         }),
 
         actions: [
@@ -106,6 +110,20 @@ var CreateAlertDialog = function (scene) {
                 background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 20, COLOR_DARK),
 
                 text: scene.add.text(0, 0, 'OK', {
+                    fontSize: '20px'
+                }),
+
+                space: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 10
+                }
+            }),
+            scene.rexUI.add.label({
+                background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 20, COLOR_DARK),
+
+                text: scene.add.text(0, 0, 'X', {
                     fontSize: '20px'
                 }),
 
@@ -137,6 +155,14 @@ var CreateAlertDialog = function (scene) {
             content: false,  // Content is a pure text object
         }
     })
+        .on('button.click', function (button, groupName, index, pointer, event) {
+            if (button.text == 'X') {
+                localStorage.setItem("isFirstStart", 0)
+
+                scene.scene.resume(CST.SCENES.MAIN);
+                scene.scene.stop();
+            }
+        })
         .on('button.over', function (button, groupName, index, pointer, event) {
             button.getElement('background').setStrokeStyle(1, 0xffffff);
         })
@@ -177,7 +203,7 @@ var Alert = function (scene, title, content, x, y) {
         .layout();
 
     return AlertDialog
-        .moveFromPromise(1000, undefined, '-=500', 'Bounce')
+        .moveFromPromise(1000, undefined, '-=500', 'Cubic')
         .then(function () {
             return scene.rexUI.waitEvent(AlertDialog, 'button.click');
         })

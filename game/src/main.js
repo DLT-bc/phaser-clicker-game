@@ -4,7 +4,6 @@ import { BlockchainLibrary } from "./scenes/BlockchainLibrary.js";
 import { GreetingScene } from "./scenes/GreetingScene.js";
 import { LoadScene } from "./scenes/LoadScene.js";
 import { MainScene } from "./scenes/MainScene.js";
-import { MenuScene } from "./scenes/MenuScene.js";
 import { PcShop } from "./scenes/PcShop.js";
 import { TechShop } from "./scenes/TechShop.js";
 
@@ -23,7 +22,7 @@ const config = {
         createContainer: true
     },
     scene: [
-        LoadScene, MenuScene, MainScene, GreetingScene
+        LoadScene, MainScene, GreetingScene
     ]
     
 };
