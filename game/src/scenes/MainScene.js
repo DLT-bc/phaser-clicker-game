@@ -266,13 +266,14 @@ export class MainScene extends Phaser.Scene {
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)
             localStorage.setItem("savedDate", Date.now())
+
             localStorage.setItem('userData', JSON.stringify(this.userData))
         } , 1000)
 
         setInterval(() => {
             this.exchangeRate = calculateExchangeRate(1) 
             this.exchangeRateTitle.setText(`${localization.getLocale('exchangeRate')}: ${this.exchangeRate}`)
-            console.log(this.userData.cryptoCurrency, this.userData.moneyCurrency);
+            //console.log(this.userData.cryptoCurrency, this.userData.moneyCurrency);
         } , 5000)
 
     }

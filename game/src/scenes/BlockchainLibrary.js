@@ -96,7 +96,7 @@ export class BlockchainLibrary extends Phaser.Scene {
 
         let text = this.add.dom(textPanel.x, textPanel.y - textPanel.height / 2).createElement('p', textStyle, "")
         text.setHTML(localization.variant === 'ru' ? this.textInfo[0].textRU : this.textInfo[0].text);
-        console.log(text);
+        //console.log(text);
 
         this.scrollablePanel.setChildrenInteractive()
         .on('child.click', (child, pointer, event) => {

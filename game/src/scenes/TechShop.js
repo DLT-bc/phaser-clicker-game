@@ -97,6 +97,7 @@ export class TechShop extends Phaser.Scene {
             if(this.userData.cryptoCurrency >= techInfo[this.userData.techLvl].price) {
                 this.userData.cryptoCurrency -= techInfo[this.userData.techLvl].price
                 this.userData.techLvl++
+                alert(localization.variant === 'ru' ? 'Вам доступна новая тема в Блокчейн Библиотеке! ' : 'You have unlocked a new theme in Blockchain Library!')
             } else {
                 alert(localization.getLocale('techShop2'))
             }
@@ -145,7 +146,6 @@ export class TechShop extends Phaser.Scene {
 
 
             const deleteText = document.querySelectorAll("p")
-            console.log(deleteText);
             deleteText.forEach(el => el.remove());
             
         }).on("pointerout", () => {
