@@ -4,7 +4,7 @@ import { PcShop } from "./PcShop.js";
 import { TechShop } from "./TechShop.js";
 import { BlockchainLibrary } from "./BlockchainLibrary.js";
 import { drawDebugBounds } from "../debug.js";
-
+import { localization } from "../localization.js";
 import { newRatio } from "../main.js";
 
 export class MainScene extends Phaser.Scene {
@@ -25,6 +25,7 @@ export class MainScene extends Phaser.Scene {
             localStorage.setItem("isFirstStart", 1)
         }
     }
+    
     preload() {
 
     }
@@ -39,7 +40,7 @@ export class MainScene extends Phaser.Scene {
         this.add.image(0, 0, "background_layer").setOrigin(0, 0).setAlpha(0.2)
 
         this.scale.lockOrientation('landscape')
-        this.orientationText = this.add.text(320, 128, 'Please set your\nphone to landscape', { font: '48px Courier', fill: '#00ff00', align: 'center' }).setOrigin(0.5);
+        this.orientationText = this.add.text(320, 128, localization.getLocale('mainScene1'), { font: '48px Courier', fill: '#00ff00', align: 'center' }).setOrigin(0.5);
         this.checkOriention(this.scale.orientation);
         console.log("Orientation: ", this.scale.orientation);
         this.scale.on('orientationchange', this.checkOriention, this);
@@ -51,6 +52,12 @@ export class MainScene extends Phaser.Scene {
         this.exchangeRate = calculateExchangeRate(1) // 1 - default
         this.exchangeMode = 1 // 1 - 100% default
         
+        let counterObj = { num: 2 }
+        this.counter = counterObj.num
+        this.playerTexts = new Map()
+        this.playerTexts.set(localization.getLocale('mainScene2'), 1)
+        this.registry.set("player_texts", this.playerTexts)
+        this.registry.set("texts_counter", this.counter)
 
         //create additional scenes   
 
@@ -63,26 +70,30 @@ export class MainScene extends Phaser.Scene {
         
         
 
+        
+        //let get1000 = this.add.sprite(0, 0 , "exchange_100").setInteractive().setOrigin(0, 0)
+       // get1000.on('pointerdown', () => {
+        //    this.userData.cryptoCurrency += 100000
+        //})
 
         //create sprites
 
-        
         let mainPc = this.add.sprite(sceneWidth / 2, sceneHeight / 2.5, "main_pc").setInteractive().setScale(this.newRatio * 1)
 
         let pcShopBtn = this.add.sprite(sceneWidth * 0.1, sceneHeight * 0.9, "pc_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * pcShopBtn.scale * 1.15, sceneHeight * 0.9, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
-        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * techShopBtn.scale * 1.15, sceneHeight * 0.9, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
+        let techShopBtn = this.add.sprite(pcShopBtn.x + pcShopBtn.width * 1.25, sceneHeight * 0.9, "tech_shop_btn").setInteractive().setScale(this.newRatio * 1)
+        let bcLibraryBtn = this.add.sprite(techShopBtn.x + techShopBtn.width * 1.25, sceneHeight * 0.9, "bc_library_btn").setInteractive().setScale(this.newRatio * 1)
 
-        console.log(pcShopBtn.width, techShopBtn.width);
-
+        
         let exchangeBtn = this.add.sprite(sceneWidth * 0.7, sceneHeight * 0.9, "exchange_btn").setInteractive().setScale(this.newRatio * 1)
-        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.26 , "exchange_100").setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
-        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width * exchangeBtn.scaleX, exchangeBtn.y + exchangeBtn.height * exchangeBtn.scaleY * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
+        let exchange100 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 0.26 , "exchange_100").setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
+        let exchange50 = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y + exchangeBtn.height * 0.25, "exchange_50").setInteractive().setScale(this.newRatio * 1).setTint()
+        let languageBtn = this.add.sprite(exchangeBtn.x + exchangeBtn.width, exchangeBtn.y - exchangeBtn.height * 4 , localization.variant === 'ru' ? 'language_ru_btn' : 'language_en_btn').setInteractive().setScale(this.newRatio * 0.9).setTint(0x808080)
         
         //create images (z order)
-        this.miningPc = this.add.image(mainPc.x - mainPc.width * mainPc.scaleX * 1.2, mainPc.y + mainPc.height / 2.7 * mainPc.scaleY, "mining_1").setVisible(false).setScale(this.newRatio * 0.3 * 1)
+        this.miningPc = this.add.image(mainPc.x - mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "mining_lvl1").setVisible(false).setScale(this.newRatio * 1)
         if (this.userData.miningPcLvl != 0) { this.miningPc.setVisible(true) }
-        this.serverPc = this.add.image(mainPc.x + mainPc.width * mainPc.scaleX * 1.2, mainPc.y + mainPc.height / 2.7 * mainPc.scaleY, "server_1").setVisible(false).setInteractive().setScale(this.newRatio * 0.4 * 1)
+        this.serverPc = this.add.image(mainPc.x + mainPc.width * 1.3, mainPc.y + mainPc.height * 0.3, "server_lvl1").setVisible(false).setInteractive().setScale(this.newRatio * 1)
         if (this.userData.serverPcLvl != 0) { this.serverPc.setVisible(true) }
         
 
@@ -98,10 +109,13 @@ export class MainScene extends Phaser.Scene {
 
         this.moneyCounter = this.add.text(sceneWidth * 0.2, sceneHeight * 0.06, `${this.userData.moneyCurrency} $`, textStyle).setScale(this.newRatio * 1)
         this.cryptoCounter = this.add.text(sceneWidth * 0.6, sceneHeight * 0.06, `${this.userData.cryptoCurrency} Ξ`, textStyle).setScale(this.newRatio * 1)
-        this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height * this.cryptoCounter.scaleY * 1.3, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`, textStyle).setScale(newRatio * 1)
-        this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height * this.cryptoPerSecondTitle.scaleY * 1.3, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`, textStyle).setScale(this.newRatio * 1)
+        this.cryptoPerSecondTitle = this.add.text(this.cryptoCounter.x, this.cryptoCounter.y + this.cryptoCounter.height * 1.3, `${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`, textStyle).setScale(newRatio * 1)
+        this.cryptoPerClickTitle = this.add.text(this.cryptoPerSecondTitle.x, this.cryptoPerSecondTitle.y + this.cryptoPerSecondTitle.height * 1.3, `${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/${localization.getLocale('mainScene3')}`, textStyle).setScale(this.newRatio * 1)
         this.serverValueTitle = this.add.text(this.serverPc.x, this.serverPc.y - this.serverPc.height, `${timePassed} Ξ`, textStyle).setVisible(false).setScale(this.newRatio * 1)
-        this.exchangeRateTitle = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * exchangeBtn.scaleY * 0.7, `Exchange Rate: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
+        this.exchangeRateTitle = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * 0.7, `${localization.getLocale('exchangeRate')}: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
+
+
+        // this.exchangeRateCrypto = this.add.text(exchangeBtn.x + exchangeBtn.width / 2, exchangeBtn.y - exchangeBtn.height * 0.7, `${localization.getLocale('exchangeCrypto')}: ${this.exchangeRate}`, textStyle).setOrigin(0.5).setScale(this.newRatio * 1)
 
         
         //create audio, disable pauseonblur
@@ -113,7 +127,7 @@ export class MainScene extends Phaser.Scene {
 
         //create dialogWindows
         
-        let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, exchange50, bcLibraryBtn]
+        let mainSceneBtns = [mainPc, pcShopBtn, techShopBtn, exchangeBtn, exchange100, languageBtn, exchange50, bcLibraryBtn]
         this.registry.set("mainSceneBtns", mainSceneBtns)
 
         
@@ -151,14 +165,14 @@ export class MainScene extends Phaser.Scene {
         })
         
         this.serverPc.on("pointerdown", () => {
-            this.serverPc.setScale(this.newRatio * 0.5 * 0.95).setTint(0x808080)
+            this.serverPc.setScale(this.newRatio * 0.95).setTint(0x808080)
             this.userData.cryptoCurrency += Math.min(calculateServerStorage(this.userData.serverPcLvl, this.userData.techLvl), Math.floor(timePassed))
             timePassed = 0
             this.serverValueTitle.setText(`${timePassed} Ξ`)
         }).on("pointerout", () => {
-            this.serverPc.setScale(this.newRatio * 0.4 * 1).setTint()
+            this.serverPc.setScale(this.newRatio * 1).setTint()
         }).on("pointerup", () => {
-            this.serverPc.setScale(this.newRatio * 0.4 * 1).setTint()
+            this.serverPc.setScale(this.newRatio * 1).setTint()
         })
         
         //exchange btns
@@ -179,6 +193,10 @@ export class MainScene extends Phaser.Scene {
             this.exchangeMode = 1
             exchangeBtn.setInteractive()
              
+        })
+        languageBtn.on("pointerdown", () => {
+            languageBtn.setScale(this.newRatio * 0.9).setTint(0x808080)
+            localization.toggleVariant();
         })
         exchange50.on("pointerdown", () => {
             exchange50.setScale(this.newRatio * 0.9).setTint(0x808080)
@@ -246,7 +264,7 @@ export class MainScene extends Phaser.Scene {
         
         */
 
-        this.updateText()
+        
         
         setInterval(() => {
             this.userData.cryptoCurrency += calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)
@@ -255,7 +273,8 @@ export class MainScene extends Phaser.Scene {
 
         setInterval(() => {
             this.exchangeRate = calculateExchangeRate(1)
-            this.exchangeRateTitle.setText(`Exchange Rate: ${this.exchangeRate}`)
+ 
+            this.exchangeRateTitle.setText(`${localization.getLocale('exchangeRate')}: ${this.exchangeRate}`)
             console.log(this.userData.cryptoCurrency, this.userData.moneyCurrency);
         } , 5000)
 
@@ -277,6 +296,7 @@ export class MainScene extends Phaser.Scene {
     }
     
     exchangeCrypto() {
+
         if(this.userData.cryptoCurrency <= 0.1) { console.log("returning..."); return }
 
         let changingCrypto = this.userData.cryptoCurrency * this.exchangeMode 
@@ -312,18 +332,21 @@ export class MainScene extends Phaser.Scene {
         return this.scene.add(key, sceneWindow, false)
     }
     
-    updateText() {
-        this.cryptoCounter.setText(`${Math.floor(this.userData.cryptoCurrency * 100) / 100} Ξ`)
-        this.moneyCounter.setText(`${Math.floor(this.userData.moneyCurrency * 100) / 100} $`)
-        this.exchangeRateTitle.setText(`Exchange Rate: ${this.exchangeRate}`)
-        this.cryptoPerSecondTitle.setText(`${calculateAutoMining(this.userData.miningPcLvl, this.userData.techLvl)} Ξ/s`)
-        this.cryptoPerClickTitle.setText(`${calculateClickingMultiplier(this.userData.mainPcLvl, this.userData.techLvl)} Ξ/click`)
-    }
-
     update() {
 
         this.cryptoCounter.setText(`${Math.floor(this.userData.cryptoCurrency * 100) / 100} Ξ`)
+
         this.moneyCounter.setText(`${Math.floor(this.userData.moneyCurrency * 100) / 100} $`)
-    
+
+
+        //this.mainPcPrice = 100 + (50 * this.userData.mainPcLvl * Math.pow(1.1, this.exp))
+        //this.miningPcPrice = 100 + (50 * this.userData.miningPcLvl * Math.pow(1.1, this.exp))
+        //this.serverPcPrice = 100 + (50 * this.userData.serverPcLvl * Math.pow(1.1, this.exp))
+
+
+        
+        
+        
     }
+    
 }
