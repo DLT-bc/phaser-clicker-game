@@ -103,8 +103,10 @@ export class BlockchainLibrary extends Phaser.Scene {
             child.setScale(0.95)
 
             let id = parseInt(child.text.slice(-1)) - 1
-            console.log(id);
-
+            if(parseInt(child.text.slice(-2)) == 10) {
+                id = 9
+            }
+            
             if (this.textInfo[id].id == id) {
                 text.setHTML(localization.variant === 'ru' ? this.textInfo[id].textRU : this.textInfo[id].text);
                 console.log(text);
@@ -187,11 +189,11 @@ var createGrid = function (scene) {
         },
     }).addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_PRIMARY))
 
-    for (let i = 1; i <= scene.userData.techLvl + 1; i++) {
+    for (let i = 0; i <= scene.userData.techLvl - 1; i++) {
         sizer.add(scene.rexUI.add.label({
             width: scene.game.renderer.width * 0.25, height: 60,
             background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
-            text: scene.add.text(0, 0, `${localization.getLocale('blockchainLibrary2')} ${i}`, {
+            text: scene.add.text(0, 0, `${localization.getLocale('blockchainLibrary2')} ${i + 1}`, {
                 fontSize: 18
             }),
     
